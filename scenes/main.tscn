@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ctthyb5dl2j42" path="res://scenes/EnemyTank.tscn" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_choun"]
+[ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="7_trceg"]
 [ext_resource type="AudioStream" uid="uid://b7ky4nwgfcwwe" path="res://assets/sounds/shoot.mp3" id="8_tipki"]
 [ext_resource type="AudioStream" uid="uid://cl1k2xphk5ctj" path="res://assets/sounds/enemy_die.mp3" id="9_85g3d"]
 [ext_resource type="AudioStream" uid="uid://bjqm15rkq4eab" path="res://assets/sounds/upgrade.mp3" id="10_choun"]
@@ -28,6 +29,7 @@ fast_enemy_scene = ExtResource("3_tipki")
 tank_enemy_scene = ExtResource("4_85g3d")
 boss_enemy_scene = ExtResource("5_choun")
 tower_scene = ExtResource("3_sugp2")
+floating_text_scene = ExtResource("7_trceg")
 
 [node name="Map" type="Node2D" parent="." unique_id=359670548]
 

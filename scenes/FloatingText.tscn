@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://s3juhgvc781n"]
 
-[ext_resource type="Script" uid="uid://brhlhkl4whlii" path="res://FloatingText.gd" id="1_iwtc3"]
+[ext_resource type="Script" uid="uid://brhlhkl4whlii" path="res://scripts/FloatingText.gd" id="1_iwtc3"]
 
 [node name="FloatingText" type="Label" unique_id=2110802740]
 offset_right = 40.0

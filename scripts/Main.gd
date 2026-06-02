@@ -6,6 +6,7 @@ extends Node2D
 @export var boss_enemy_scene: PackedScene
 @export var tower_scene: PackedScene
 @export var tower_cost := 50
+@export var floating_text_scene: PackedScene
 
 var selected_tower = null
 var money := 100
@@ -31,7 +32,6 @@ func _ready():
 	$UI/TowerPanel.visible = false
 
 	$UI/GameOverPanel.visible = false
-
 	$UI/PauseButton.pressed.connect(_on_pause_button_pressed)
 
 	print("Main scene ready")
@@ -91,19 +91,26 @@ func _on_enemy_died(reward, pos):
 	money += reward
 	enemies_alive -= 1
 	
-	spawn_reward_text(reward, pos)
+	spawn_coin_text(pos, reward)
 	play_sfx("EnemyDieSound")
 	
 	update_ui()
 	check_wave_end()
-	
-func spawn_reward_text(reward, pos):
-	var floating_text_scene = preload("res://scenes/FloatingText.tscn")
+
+func spawn_coin_text(world_pos: Vector2, amount: int):
+	if floating_text_scene == null:
+		print("Chưa gán FloatingText scene")
+		return
 	
 	var text = floating_text_scene.instantiate()
 	add_child(text)
-	text.setup("+" + str(reward) + "$", pos + Vector2(0, -45), Color.GOLD)
-	
+
+	text.global_position = world_pos + Vector2(0, -45)
+	text.setup_text("+" + str(amount) + "$", Color.GOLD)
+
+	var target_pos = $UI/MoneyLabel.global_position
+	text.fly_to(target_pos)
+
 func _on_enemy_reached_base():
 	base_hp -= 1
 	enemies_alive -= 1
@@ -112,6 +119,7 @@ func _on_enemy_reached_base():
 	if base_hp <= 0:
 		game_over()
 		return
+	
 	check_wave_end()
 
 func game_over():
@@ -123,10 +131,10 @@ func game_over():
 	
 	if has_node("UI/GameOverPanel/ResultLabel"):
 		$UI/GameOverPanel/ResultLabel.text = "You survived Wave " + str(wave)
-		
+
 func _on_play_again_pressed():
 	get_tree().reload_current_scene()
-	
+
 func check_wave_end():
 	if enemies_spawned >= enemies_to_spawn and enemies_alive <= 0:
 		start_next_wave()
@@ -142,24 +150,31 @@ func start_next_wave():
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
+			
+			if $UI/TowerPanel.visible:
+				var panel_rect = Rect2(
+					$UI/TowerPanel.global_position,
+					$UI/TowerPanel.size
+				)
+				
+				if panel_rect.has_point(event.position):
+					return
+			
 			var mouse_pos = get_global_mouse_position()
 			
-			var clicked_tower = get_tower_at(mouse_pos)
+			var clicked_tower = get_tower_body_at(mouse_pos)
 			if clicked_tower != null:
 				select_tower(clicked_tower)
 				return
 			
 			try_place_tower(mouse_pos)
 
-func get_tower_at(mouse_pos):
+func get_tower_body_at(mouse_pos):
 	for tower in $Towers.get_children():
-		if tower is Area2D:
-			var shape = tower.get_node("CollisionShape2D").shape
-			var local_pos = tower.to_local(mouse_pos)
-			
-			if shape is CircleShape2D:
-				if local_pos.length() <= 25:
-					return tower
+		var distance = tower.global_position.distance_to(mouse_pos)
+		
+		if distance <= 30:
+			return tower
 	
 	return null
 
@@ -267,7 +282,6 @@ func _on_upgrade_button_pressed():
 
 func _on_pause_button_pressed():
 	is_paused = !is_paused
-	
 	get_tree().paused = is_paused
 	
 	if is_paused:

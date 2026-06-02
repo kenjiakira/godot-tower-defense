@@ -58,7 +58,9 @@ func spawn_floating_text(damage):
 	
 	var text = floating_text_scene.instantiate()
 	get_tree().current_scene.add_child(text)
-	text.setup("-" + str(damage), global_position + Vector2(-10, -35))
+	
+	text.global_position = global_position + Vector2(-10, -35)
+	text.setup_text("-" + str(damage), Color.WHITE)
 
 func spawn_death_effect():
 	if death_effect_scene == null:
