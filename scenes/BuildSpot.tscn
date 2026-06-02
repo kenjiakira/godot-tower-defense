@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bj3ot8exbuqog"]
+
+[ext_resource type="Script" uid="uid://kut3deebtso8" path="res://BuildSpot.gd" id="1_1bpbn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_824nf"]
+size = Vector2(48, 48)
+
+[node name="BuildSpot" type="Area2D" unique_id=19279728 groups=["build_spot"]]
+script = ExtResource("1_1bpbn")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1406638946]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.6977806, 0.7441453, 0.70931023, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1011019411]
+shape = SubResource("RectangleShape2D_824nf")

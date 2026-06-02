@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://ticqm3fnw6op"]
+
+[ext_resource type="Script" uid="uid://b883bngpatbf" path="res://scripts/Main.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://3fcekdfkhhos" path="res://scenes/EnemyNormal.tscn" id="2_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://dybj3c7qc8wi1" path="res://scenes/tower.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://ov22oijrs83d" path="res://scenes/EnemyFast.tscn" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://ctthyb5dl2j42" path="res://scenes/EnemyTank.tscn" id="4_85g3d"]
+[ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_choun"]
+
+[sub_resource type="Curve2D" id="Curve2D_sgp6g"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 36, 352, -59.4, 8.8, 59.4, -8.8, 515, 348, -35.2, 26.400002, 35.2, -26.400002, 630, 270, -37.4, -6.6000004, 37.4, 6.6000004, 763, 264, -45.100002, -25.300001, 45.100002, 25.300001, 849, 403, -34.100002, 3.3000002, 34.100002, -3.3000002, 1018, 403, -13.200001, -29.7, 13.200001, 29.7, 1113, 490, 0, 0, 0, 0, 1280, 491)
+}
+point_count = 8
+
+[node name="Main" type="Node2D" unique_id=1517470390]
+script = ExtResource("1_o5qli")
+normal_enemy_scene = ExtResource("2_o6xl0")
+fast_enemy_scene = ExtResource("3_tipki")
+tank_enemy_scene = ExtResource("4_85g3d")
+boss_enemy_scene = ExtResource("5_choun")
+tower_scene = ExtResource("3_sugp2")
+
+[node name="Map" type="Node2D" parent="." unique_id=359670548]
+
+[node name="Background" type="ColorRect" parent="Map" unique_id=1415906410]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.21176471, 0.7764706, 0.32941177, 1)
+
+[node name="Path2D" type="Path2D" parent="." unique_id=1504029401]
+curve = SubResource("Curve2D_sgp6g")
+
+[node name="SpawnPoint" type="PathFollow2D" parent="Path2D" unique_id=492167566]
+position = Vector2(36, 352)
+rotation = 0.011438938
+rotates = false
+loop = false
+
+[node name="Towers" type="Node2D" parent="." unique_id=2099567685]
+
+[node name="Bullets" type="Node2D" parent="." unique_id=1791816987]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1015302294]
+
+[node name="MoneyLabel" type="Label" parent="UI" unique_id=721529833]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 109.0
+offset_bottom = 43.0
+text = "Money: 100"
+
+[node name="HPLabel" type="Label" parent="UI" unique_id=1540006958]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 69.0
+offset_bottom = 99.0
+text = "HP: 10
+"
+
+[node name="WaveLabel" type="Label" parent="UI" unique_id=1090327012]
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 103.0
+text = "$UI/WaveLabel.text = \"Wave: \" + str(wave)"
+
+[node name="TowerPanel" type="Panel" parent="UI" unique_id=46876510]
+offset_left = 1027.0
+offset_top = 20.0
+offset_right = 1247.0
+offset_bottom = 150.0
+
+[node name="TowerInfoLabel" type="Label" parent="UI/TowerPanel" unique_id=998524754]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 93.0
+offset_bottom = 33.0
+text = "Tower Info"
+
+[node name="UpgradeButton" type="Button" parent="UI/TowerPanel" unique_id=517617287]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 83.0
+offset_right = 210.0
+offset_bottom = 118.0
+text = "Upgrade"
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=924716869]
+
+[node name="BuildSpots" type="Node2D" parent="." unique_id=1127812382]
+
+[node name="BuildSpot" parent="BuildSpots" unique_id=19279728 instance=ExtResource("4_jyhfs")]
+position = Vector2(567, 430)
+
+[node name="BuildSpot2" parent="BuildSpots" unique_id=1530382470 instance=ExtResource("4_jyhfs")]
+position = Vector2(461, 254)
+
+[node name="BuildSpot3" parent="BuildSpots" unique_id=1269044109 instance=ExtResource("4_jyhfs")]
+position = Vector2(364, 458)
+
+[node name="BuildSpot4" parent="BuildSpots" unique_id=89096381 instance=ExtResource("4_jyhfs")]
+position = Vector2(228, 238)
+
+[node name="BuildSpot5" parent="BuildSpots" unique_id=719798030 instance=ExtResource("4_jyhfs")]
+position = Vector2(139, 454)
+
+[node name="BuildSpot6" parent="BuildSpots" unique_id=646827415 instance=ExtResource("4_jyhfs")]
+position = Vector2(682, 177)
+
+[node name="BuildSpot7" parent="BuildSpots" unique_id=194669149 instance=ExtResource("4_jyhfs")]
+position = Vector2(889, 278)
+
+[node name="WaveTimer" type="Timer" parent="." unique_id=1830490940]

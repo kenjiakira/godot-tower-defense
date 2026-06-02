@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ov22oijrs83d"]
+
+[ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_pflbe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
+radius = 12.0
+
+[node name="Enemy" type="PathFollow2D" unique_id=1003752142 groups=["enemy"]]
+script = ExtResource("1_pflbe")
+speed = 180.0
+max_hp = 60
+reward = 15
+enemy_color = Color(1, 1, 0, 1)
+
+[node name="Body" type="ColorRect" parent="." unique_id=1839885312]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+color = Color(1, 1, 0, 1)
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=713646102 groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=363432730]
+shape = SubResource("CircleShape2D_7p1mj")

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dybj3c7qc8wi1"]
+
+[ext_resource type="Script" uid="uid://cjp0q5ojtrvjx" path="res://scripts/Tower.gd" id="1_2x682"]
+[ext_resource type="PackedScene" uid="uid://bakx4evbmavbu" path="res://scenes/bullet.tscn" id="2_ay4al"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7j8ug"]
+radius = 150.0
+
+[node name="Tower" type="Area2D" unique_id=761666690 groups=["tower"]]
+script = ExtResource("1_2x682")
+bullet_scene = ExtResource("2_ay4al")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1563488376]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.21176471, 0.90588236, 1, 1)
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=1192662605]
+wait_time = 0.5
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=624985401]
+shape = SubResource("CircleShape2D_7j8ug")
