@@ -23,3 +23,8 @@ autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=624985401]
 shape = SubResource("CircleShape2D_7j8ug")
+
+[node name="RangePreview" type="Line2D" parent="." unique_id=21581269]
+visible = false
+width = 2.0
+default_color = Color(1, 1, 1, 0.61960787)

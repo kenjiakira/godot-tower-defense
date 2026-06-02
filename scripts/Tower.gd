@@ -14,11 +14,16 @@ var enemies = []
 func _ready():
 	apply_level_stats()
 	
-	$ShootTimer.timeout.connect(shoot)
-	$ShootTimer.start()
+	if has_node("ShootTimer"):
+		$ShootTimer.timeout.connect(shoot)
+		$ShootTimer.start()
 	
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
+	
+	if has_node("RangePreview"):
+		draw_range_preview()
+		$RangePreview.visible = false
 
 func apply_level_stats():
 	if level == 1:
@@ -42,6 +47,8 @@ func apply_level_stats():
 	
 	if has_node("ShootTimer"):
 		$ShootTimer.wait_time = fire_rate
+	
+	draw_range_preview()
 
 func set_body_color(color):
 	if has_node("Body"):
@@ -52,6 +59,30 @@ func set_range(radius):
 		var shape = $CollisionShape2D.shape
 		if shape is CircleShape2D:
 			shape.radius = radius
+
+func draw_range_preview():
+	if not has_node("RangePreview"):
+		return
+	
+	var radius := 150.0
+	
+	if has_node("CollisionShape2D"):
+		var shape = $CollisionShape2D.shape
+		if shape is CircleShape2D:
+			radius = shape.radius
+	
+	var points = []
+	var segments := 64
+	
+	for i in range(segments + 1):
+		var angle = TAU * i / segments
+		points.append(Vector2(cos(angle), sin(angle)) * radius)
+	
+	$RangePreview.points = points
+
+func set_selected(value):
+	if has_node("RangePreview"):
+		$RangePreview.visible = value
 
 func can_upgrade():
 	return level < max_level

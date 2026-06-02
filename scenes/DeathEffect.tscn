@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dnl853pp4mqt0"]
+
+[ext_resource type="Script" uid="uid://br7u6pihxq2f" path="res://scripts/DeathEffect.gd" id="1_6xq5i"]
+
+[node name="DeathEffect" type="Node2D" unique_id=1421064700]
+script = ExtResource("1_6xq5i")
+
+[node name="Body" type="ColorRect" parent="." unique_id=1568630238]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0

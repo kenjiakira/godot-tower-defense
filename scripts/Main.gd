@@ -55,8 +55,7 @@ func get_enemy_scene_for_wave():
 		var r = randf()
 		if r < 0.7:
 			return normal_enemy_scene
-		else:
-			return fast_enemy_scene
+		return fast_enemy_scene
 	
 	if wave <= 9:
 		var r = randf()
@@ -64,8 +63,7 @@ func get_enemy_scene_for_wave():
 			return normal_enemy_scene
 		elif r < 0.8:
 			return fast_enemy_scene
-		else:
-			return tank_enemy_scene
+		return tank_enemy_scene
 	
 	var r = randf()
 	if r < 0.4:
@@ -74,8 +72,8 @@ func get_enemy_scene_for_wave():
 		return fast_enemy_scene
 	elif r < 0.9:
 		return tank_enemy_scene
-	else:
-		return boss_enemy_scene
+	
+	return boss_enemy_scene
 
 func _on_enemy_died(reward):
 	money += reward
@@ -91,8 +89,8 @@ func _on_enemy_reached_base():
 	if base_hp <= 0:
 		print("GAME OVER")
 		$SpawnTimer.stop()
+		$UI/GameOverPanel.visible = true
 		return
-	
 	check_wave_end()
 
 func check_wave_end():
@@ -118,7 +116,7 @@ func _input(event):
 				return
 			
 			try_place_tower(mouse_pos)
-			
+
 func get_tower_at(mouse_pos):
 	for tower in $Towers.get_children():
 		if tower is Area2D:
@@ -135,6 +133,7 @@ func try_place_tower(mouse_pos):
 	var clicked_spot = get_build_spot_at(mouse_pos)
 	
 	if clicked_spot == null:
+		deselect_tower()
 		print("Không thể đặt tower ở đây")
 		return
 	
@@ -159,6 +158,7 @@ func try_place_tower(mouse_pos):
 	update_ui()
 	
 	print("Đã đặt tower, còn tiền:", money)
+	select_tower(tower)
 
 func get_build_spot_at(mouse_pos):
 	for spot in $BuildSpots.get_children():
@@ -174,11 +174,23 @@ func get_build_spot_at(mouse_pos):
 	return null
 
 func select_tower(tower):
+	if selected_tower != null and is_instance_valid(selected_tower):
+		selected_tower.set_selected(false)
+	
 	selected_tower = tower
+	selected_tower.set_selected(true)
+	
 	$UI/TowerPanel.visible = true
 	update_tower_panel()
 	print("Selected tower")
+
+func deselect_tower():
+	if selected_tower != null and is_instance_valid(selected_tower):
+		selected_tower.set_selected(false)
 	
+	selected_tower = null
+	$UI/TowerPanel.visible = false
+
 func update_ui():
 	$UI/MoneyLabel.text = "Money: " + str(money)
 	$UI/HPLabel.text = "HP: " + str(base_hp)
@@ -197,7 +209,7 @@ func update_tower_panel():
 	else:
 		$UI/TowerPanel/UpgradeButton.text = "MAX"
 		$UI/TowerPanel/UpgradeButton.disabled = true
-		
+
 func _on_upgrade_button_pressed():
 	if selected_tower == null:
 		return

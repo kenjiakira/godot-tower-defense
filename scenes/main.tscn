@@ -88,6 +88,21 @@ offset_right = 210.0
 offset_bottom = 118.0
 text = "Upgrade"
 
+[node name="GameOverPanel" type="Panel" parent="UI" unique_id=1364974723]
+visible = false
+offset_left = 450.0
+offset_top = 250.0
+offset_right = 810.0
+offset_bottom = 410.0
+
+[node name="GameOverLabel" type="Label" parent="UI/GameOverPanel" unique_id=1608226782]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 187.0
+offset_bottom = 83.0
+text = "Game Over"
+
 [node name="SpawnTimer" type="Timer" parent="." unique_id=924716869]
 
 [node name="BuildSpots" type="Node2D" parent="." unique_id=1127812382]
