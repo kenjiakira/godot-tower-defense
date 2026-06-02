@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://ctthyb5dl2j42"]
 
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_tj60o"]
+[ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_wmqtm"]
+[ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_2ijw2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
@@ -10,6 +12,8 @@ script = ExtResource("1_tj60o")
 speed = 55.0
 max_hp = 350
 reward = 30
+floating_text_scene = ExtResource("2_wmqtm")
+death_effect_scene = ExtResource("3_2ijw2")
 
 [node name="Body" type="ColorRect" parent="." unique_id=1839885312]
 offset_left = -12.0

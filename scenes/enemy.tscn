@@ -1,12 +1,17 @@
 [gd_scene format=3 uid="uid://caljsike07l14"]
 
-[ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_7p1mj"]
+[ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_3gvst"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
 
 [node name="Enemy" type="PathFollow2D" unique_id=1003752142 groups=["enemy"]]
-script = ExtResource("1_7p1mj")
+script = ExtResource("1_3gvst")
+speed = null
+max_hp = null
+reward = null
+enemy_color = null
+enemy_name = null
 
 [node name="Body" type="ColorRect" parent="." unique_id=1839885312]
 offset_left = -12.0
@@ -23,6 +28,7 @@ shape = SubResource("CircleShape2D_7p1mj")
 [node name="HPBar" type="ProgressBar" parent="." unique_id=94128904]
 offset_left = -20.0
 offset_top = -28.0
-offset_right = -16.0
+offset_right = 20.0
 offset_bottom = -1.0
 value = 100.0
+show_percentage = false

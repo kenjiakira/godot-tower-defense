@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://3fcekdfkhhos"]
 
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_iq1te"]
+[ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_fbvhx"]
+[ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_cptk2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
 
 [node name="Enemy" type="PathFollow2D" unique_id=1003752142 groups=["enemy"]]
 script = ExtResource("1_iq1te")
+floating_text_scene = ExtResource("2_fbvhx")
+death_effect_scene = ExtResource("3_cptk2")
 
 [node name="Body" type="ColorRect" parent="." unique_id=1839885312]
 offset_left = -12.0

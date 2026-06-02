@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://s3juhgvc781n"]
+
+[ext_resource type="Script" uid="uid://brhlhkl4whlii" path="res://FloatingText.gd" id="1_iwtc3"]
+
+[node name="FloatingText" type="Label" unique_id=2110802740]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "- 25"
+horizontal_alignment = 1
+script = ExtResource("1_iwtc3")

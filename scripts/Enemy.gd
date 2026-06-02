@@ -5,6 +5,8 @@ extends PathFollow2D
 @export var reward := 10
 @export var enemy_color := Color.RED
 @export var enemy_name := "Normal"
+
+@export var floating_text_scene: PackedScene
 @export var death_effect_scene: PackedScene
 
 var hp := 100
@@ -37,11 +39,22 @@ func take_damage(damage):
 	if has_node("HPBar"):
 		$HPBar.value = hp
 	
+	spawn_floating_text(damage)
+	hit_flash()
+	
 	if hp <= 0:
 		spawn_death_effect()
 		died.emit(reward)
 		queue_free()
-		
+
+func spawn_floating_text(damage):
+	if floating_text_scene == null:
+		return
+	
+	var text = floating_text_scene.instantiate()
+	get_tree().current_scene.add_child(text)
+	text.setup("-" + str(damage), global_position + Vector2(-10, -35))
+
 func spawn_death_effect():
 	if death_effect_scene == null:
 		return
@@ -49,3 +62,10 @@ func spawn_death_effect():
 	var effect = death_effect_scene.instantiate()
 	get_tree().current_scene.add_child(effect)
 	effect.global_position = global_position
+
+func hit_flash():
+	if not has_node("Body"):
+		return 
+	$Body.color = Color.WHITE
+	await get_tree().create_timer(0.08).timeout
+	$Body.color = enemy_color
