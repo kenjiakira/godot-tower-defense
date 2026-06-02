@@ -128,4 +128,8 @@ func shoot():
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.get_node("Bullets").add_child(bullet)
 	bullet.global_position = global_position
-	bullet.setup(target, damage)
+	bullet.setup(target, damage, 0)
+	
+	var main = get_tree().current_scene
+	if main.has_method("play_sfx"):
+		main.play_sfx("ShootSound")

@@ -7,12 +7,19 @@
 [ext_resource type="PackedScene" uid="uid://ctthyb5dl2j42" path="res://scenes/EnemyTank.tscn" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_choun"]
+[ext_resource type="AudioStream" uid="uid://b7ky4nwgfcwwe" path="res://assets/sounds/shoot.mp3" id="8_tipki"]
+[ext_resource type="AudioStream" uid="uid://cl1k2xphk5ctj" path="res://assets/sounds/enemy_die.mp3" id="9_85g3d"]
+[ext_resource type="AudioStream" uid="uid://bjqm15rkq4eab" path="res://assets/sounds/upgrade.mp3" id="10_choun"]
+[ext_resource type="AudioStream" uid="uid://cwyf62mdpq8pw" path="res://assets/sounds/button.mp3" id="11_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://0ift4xlvl63d" path="res://assets/sounds/game-over.mp3" id="12_eb6dy"]
 
 [sub_resource type="Curve2D" id="Curve2D_sgp6g"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 36, 352, -59.4, 8.8, 59.4, -8.8, 515, 348, -35.2, 26.400002, 35.2, -26.400002, 630, 270, -37.4, -6.6000004, 37.4, 6.6000004, 763, 264, -45.100002, -25.300001, 45.100002, 25.300001, 849, 403, -34.100002, 3.3000002, 34.100002, -3.3000002, 1018, 403, -13.200001, -29.7, 13.200001, 29.7, 1113, 490, 0, 0, 0, 0, 1280, 491)
+"points": PackedVector2Array(0, 0, 0, 0, -1, 354, -42.592003, -159.72002, 42.592003, 159.72002, 202.758, 464.895, 0, 0, 0, 0, 402, 595, 58.564003, 192.99501, -58.564003, -192.99501, 519.536, 379.711, 0, 0, 0, 0, 623, 184, 113.13501, -178.35402, -113.13501, 178.35402, 716.52405, 395.68298, 0, 0, 0, 0, 812, 630, 55.902004, 226.27002, -55.902004, -226.27002, 925.491, 450.254, 0, 0, 0, 0, 1270, 352)
 }
-point_count = 8
+point_count = 9
+
+[sub_resource type="LabelSettings" id="LabelSettings_o6xl0"]
 
 [node name="Main" type="Node2D" unique_id=1517470390]
 script = ExtResource("1_o5qli")
@@ -33,7 +40,7 @@ color = Color(0.21176471, 0.7764706, 0.32941177, 1)
 curve = SubResource("Curve2D_sgp6g")
 
 [node name="SpawnPoint" type="PathFollow2D" parent="Path2D" unique_id=492167566]
-position = Vector2(36, 352)
+position = Vector2(-1, 354)
 rotation = 0.011438938
 rotates = false
 loop = false
@@ -43,6 +50,7 @@ loop = false
 [node name="Bullets" type="Node2D" parent="." unique_id=1791816987]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1015302294]
+process_mode = 3
 
 [node name="MoneyLabel" type="Label" parent="UI" unique_id=721529833]
 offset_left = 20.0
@@ -89,7 +97,6 @@ offset_bottom = 118.0
 text = "Upgrade"
 
 [node name="GameOverPanel" type="Panel" parent="UI" unique_id=1364974723]
-visible = false
 offset_left = 450.0
 offset_top = 250.0
 offset_right = 810.0
@@ -97,35 +104,87 @@ offset_bottom = 410.0
 
 [node name="GameOverLabel" type="Label" parent="UI/GameOverPanel" unique_id=1608226782]
 layout_mode = 0
-offset_left = 100.0
-offset_top = 60.0
-offset_right = 187.0
-offset_bottom = 83.0
-text = "Game Over"
+offset_left = 138.0
+offset_top = 24.0
+offset_right = 225.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_o6xl0")
+
+[node name="ResultLabel" type="Label" parent="UI/GameOverPanel" unique_id=1091026966]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 59.0
+offset_right = 241.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 12
+text = "You survived Wave 1
+"
+
+[node name="PlayAgainButton" type="Button" parent="UI/GameOverPanel" unique_id=457683541]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 107.0
+offset_right = 225.0
+offset_bottom = 141.0
+theme_override_font_sizes/font_size = 14
+text = "Play Again"
+
+[node name="PauseButton" type="Button" parent="UI" unique_id=2057767937]
+offset_left = 571.0
+offset_top = 20.0
+offset_right = 671.0
+offset_bottom = 60.0
+text = "Pause"
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=924716869]
 
 [node name="BuildSpots" type="Node2D" parent="." unique_id=1127812382]
 
 [node name="BuildSpot" parent="BuildSpots" unique_id=19279728 instance=ExtResource("4_jyhfs")]
-position = Vector2(567, 430)
+position = Vector2(631, 333)
 
 [node name="BuildSpot2" parent="BuildSpots" unique_id=1530382470 instance=ExtResource("4_jyhfs")]
-position = Vector2(461, 254)
+position = Vector2(412, 201)
 
 [node name="BuildSpot3" parent="BuildSpots" unique_id=1269044109 instance=ExtResource("4_jyhfs")]
-position = Vector2(364, 458)
+position = Vector2(364, 495)
 
 [node name="BuildSpot4" parent="BuildSpots" unique_id=89096381 instance=ExtResource("4_jyhfs")]
-position = Vector2(228, 238)
+position = Vector2(189, 250)
 
 [node name="BuildSpot5" parent="BuildSpots" unique_id=719798030 instance=ExtResource("4_jyhfs")]
-position = Vector2(139, 454)
+position = Vector2(109, 519)
 
 [node name="BuildSpot6" parent="BuildSpots" unique_id=646827415 instance=ExtResource("4_jyhfs")]
-position = Vector2(682, 177)
+position = Vector2(810, 519)
 
 [node name="BuildSpot7" parent="BuildSpots" unique_id=194669149 instance=ExtResource("4_jyhfs")]
-position = Vector2(889, 278)
+position = Vector2(786, 184)
+
+[node name="BuildSpot8" parent="BuildSpots" unique_id=1589394078 instance=ExtResource("4_jyhfs")]
+position = Vector2(1061, 432)
+
+[node name="BuildSpot9" parent="BuildSpots" unique_id=1663877302 instance=ExtResource("4_jyhfs")]
+position = Vector2(1061, 225)
 
 [node name="WaveTimer" type="Timer" parent="." unique_id=1830490940]
+
+[node name="SFX" type="Node" parent="." unique_id=414842025]
+process_mode = 3
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="SFX" unique_id=1309401096]
+stream = ExtResource("8_tipki")
+
+[node name="EnemyDieSound" type="AudioStreamPlayer" parent="SFX" unique_id=1242484685]
+stream = ExtResource("9_85g3d")
+
+[node name="UpgradeSound" type="AudioStreamPlayer" parent="SFX" unique_id=1893681665]
+stream = ExtResource("10_choun")
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="SFX" unique_id=1327428882]
+stream = ExtResource("11_ya4ey")
+
+[node name="GameOverSound" type="AudioStreamPlayer" parent="SFX" unique_id=679316428]
+stream = ExtResource("12_eb6dy")

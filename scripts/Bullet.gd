@@ -1,22 +1,47 @@
 extends Area2D
 
+var speed := 500
 var target = null
-var damage := 25
-var speed := 450.0
+var damage := 10
+var tower_type := 0
 
-func setup(new_target, new_damage):
-	target = new_target
-	damage = new_damage
+func setup(_target, _damage, _tower_type):
+	target = _target
+	damage = _damage
+	tower_type = _tower_type
 
 func _process(delta):
-	if not is_instance_valid(target):
+	if target == null or not is_instance_valid(target):
 		queue_free()
 		return
-	
-	var direction = (target.global_position - global_position).normalized()
-	global_position += direction * speed * delta
-	
+
+	var dir = (target.global_position - global_position).normalized()
+	global_position += dir * speed * delta
+
 	if global_position.distance_to(target.global_position) < 10:
-		if target.has_method("take_damage"):
-			target.take_damage(damage)
+		hit_target()
+
+func hit_target():
+	if target == null or not is_instance_valid(target):
 		queue_free()
+		return
+
+	target.take_damage(damage)
+
+	match tower_type:
+		2:
+			explode()
+		4:
+			target.apply_slow(0.5, 2.0)
+
+	queue_free()
+
+func explode():
+	var enemies = get_tree().get_nodes_in_group("enemies")
+
+	for enemy in enemies:
+		if enemy == target:
+			continue
+
+		if global_position.distance_to(enemy.global_position) <= 70:
+			enemy.take_damage(damage * 0.5)

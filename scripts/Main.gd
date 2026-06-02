@@ -12,16 +12,28 @@ var money := 100
 var base_hp := 10
 var wave := 1
 
+var is_paused := false
+
 var enemies_to_spawn := 10
 var enemies_spawned := 0
 var enemies_alive := 0
 
 func _ready():
 	update_ui()
+
+	$UI.process_mode = Node.PROCESS_MODE_ALWAYS
+	$UI/PauseButton.process_mode = Node.PROCESS_MODE_ALWAYS
+
 	$SpawnTimer.timeout.connect(spawn_enemy)
 	$SpawnTimer.start()
+
 	$UI/TowerPanel/UpgradeButton.pressed.connect(_on_upgrade_button_pressed)
 	$UI/TowerPanel.visible = false
+
+	$UI/GameOverPanel.visible = false
+
+	$UI/PauseButton.pressed.connect(_on_pause_button_pressed)
+
 	print("Main scene ready")
 
 func spawn_enemy():
@@ -75,24 +87,46 @@ func get_enemy_scene_for_wave():
 	
 	return boss_enemy_scene
 
-func _on_enemy_died(reward):
+func _on_enemy_died(reward, pos):
 	money += reward
 	enemies_alive -= 1
+	
+	spawn_reward_text(reward, pos)
+	play_sfx("EnemyDieSound")
+	
 	update_ui()
 	check_wave_end()
-
+	
+func spawn_reward_text(reward, pos):
+	var floating_text_scene = preload("res://scenes/FloatingText.tscn")
+	
+	var text = floating_text_scene.instantiate()
+	add_child(text)
+	text.setup("+" + str(reward) + "$", pos + Vector2(0, -45), Color.GOLD)
+	
 func _on_enemy_reached_base():
 	base_hp -= 1
 	enemies_alive -= 1
 	update_ui()
 	
 	if base_hp <= 0:
-		print("GAME OVER")
-		$SpawnTimer.stop()
-		$UI/GameOverPanel.visible = true
+		game_over()
 		return
 	check_wave_end()
 
+func game_over():
+	print("GAME OVER")
+	$SpawnTimer.stop()
+	$UI/GameOverPanel.visible = true
+	$UI/PauseButton.disabled = true
+	play_sfx("GameOverSound")
+	
+	if has_node("UI/GameOverPanel/ResultLabel"):
+		$UI/GameOverPanel/ResultLabel.text = "You survived Wave " + str(wave)
+		
+func _on_play_again_pressed():
+	get_tree().reload_current_scene()
+	
 func check_wave_end():
 	if enemies_spawned >= enemies_to_spawn and enemies_alive <= 0:
 		start_next_wave()
@@ -227,5 +261,26 @@ func _on_upgrade_button_pressed():
 	
 	money -= cost
 	selected_tower.upgrade()
+	play_sfx("UpgradeSound")
 	update_ui()
 	update_tower_panel()
+
+func _on_pause_button_pressed():
+	is_paused = !is_paused
+	
+	get_tree().paused = is_paused
+	
+	if is_paused:
+		$UI/PauseButton.text = "Resume"
+	else:
+		$UI/PauseButton.text = "Pause"
+
+func play_sfx(sound_name: String):
+	var path = "SFX/" + sound_name
+	
+	if not has_node(path):
+		print("Không tìm thấy sound:", path)
+		return
+	
+	var sound = get_node(path)
+	sound.play()

@@ -3,10 +3,11 @@ extends Label
 var velocity := Vector2(0, -40)
 var lifetime := 0.6
 
-func setup(text_value, start_pos):
-	text = str(text_value)
-	global_position = start_pos
-
+func setup(text_value, pos, color = Color.WHITE):
+	global_position = pos
+	text = text_value
+	modulate = color
+	
 func _process(delta):
 	global_position += velocity * delta
 	lifetime -= delta

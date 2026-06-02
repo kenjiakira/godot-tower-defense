@@ -10,9 +10,10 @@ extends PathFollow2D
 @export var death_effect_scene: PackedScene
 
 var hp := 100
+var has_reached_base := false
 
 signal reached_base
-signal died(reward)
+signal died(reward, pos)
 
 func _ready():
 	progress = 0
@@ -26,12 +27,16 @@ func _ready():
 		$HPBar.value = hp
 
 func _process(delta):
+	if has_reached_base:
+		return
+
 	progress += speed * delta
 	
-	if progress_ratio >= 1.0:
+	if progress_ratio >= 0.99:
+		has_reached_base = true
 		reached_base.emit()
 		queue_free()
-
+		
 func take_damage(damage):
 	hp -= damage
 	print(enemy_name, " HP:", hp)
@@ -44,7 +49,7 @@ func take_damage(damage):
 	
 	if hp <= 0:
 		spawn_death_effect()
-		died.emit(reward)
+		died.emit(reward, global_position)
 		queue_free()
 
 func spawn_floating_text(damage):
