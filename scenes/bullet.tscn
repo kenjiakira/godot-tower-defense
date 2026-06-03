@@ -1,19 +1,18 @@
 [gd_scene format=3 uid="uid://bakx4evbmavbu"]
 
 [ext_resource type="Script" uid="uid://08m55edd6xei" path="res://scripts/Bullet.gd" id="1_mkf8s"]
+[ext_resource type="Texture2D" uid="uid://bgiuv4djegmjq" path="res://assets/characters/bullet.png" id="2_y25gk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h1aey"]
-radius = 4.0
+radius = 8.0
 
 [node name="Bullet" type="Area2D" unique_id=256673317]
 script = ExtResource("1_mkf8s")
 
-[node name="Body" type="ColorRect" parent="." unique_id=658458949]
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
-color = Color(1, 1, 0.08235294, 1)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=796058720]
+scale = Vector2(0.04, 0.04)
 shape = SubResource("CircleShape2D_h1aey")
+
+[node name="Body" type="Sprite2D" parent="." unique_id=446909354]
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_y25gk")

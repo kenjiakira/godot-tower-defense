@@ -30,19 +30,19 @@ func apply_level_stats():
 		damage = 25
 		fire_rate = 0.6
 		upgrade_cost = 80
-		set_body_color(Color.BLUE)
+		set_body_color(Color.WHITE)
 		set_range(150)
 	elif level == 2:
 		damage = 45
 		fire_rate = 0.45
 		upgrade_cost = 140
-		set_body_color(Color.CYAN)
+		set_body_color(Color(1.1, 1.1, 1.3))
 		set_range(180)
 	elif level == 3:
 		damage = 75
 		fire_rate = 0.3
 		upgrade_cost = 0
-		set_body_color(Color.PURPLE)
+		set_body_color(Color(1.25, 1.15, 1.45))
 		set_range(220)
 	
 	if has_node("ShootTimer"):
@@ -50,9 +50,9 @@ func apply_level_stats():
 	
 	draw_range_preview()
 
-func set_body_color(color):
+func set_body_color(color: Color):
 	if has_node("Body"):
-		$Body.color = color
+		$Body.modulate = color
 
 func set_range(radius):
 	if has_node("CollisionShape2D"):

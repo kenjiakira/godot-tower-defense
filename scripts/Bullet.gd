@@ -18,9 +18,11 @@ func _process(delta):
 	var dir = (target.global_position - global_position).normalized()
 	global_position += dir * speed * delta
 
+	rotation = dir.angle()
+
 	if global_position.distance_to(target.global_position) < 10:
 		hit_target()
-
+		
 func hit_target():
 	if target == null or not is_instance_valid(target):
 		queue_free()

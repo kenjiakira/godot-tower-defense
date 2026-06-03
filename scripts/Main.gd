@@ -33,6 +33,7 @@ func _ready():
 
 	$UI/GameOverPanel.visible = false
 	$UI/PauseButton.pressed.connect(_on_pause_button_pressed)
+	$UI/GameOverPanel/PlayAgainButton.pressed.connect(_on_play_again_pressed)
 
 	print("Main scene ready")
 
@@ -114,7 +115,9 @@ func spawn_coin_text(world_pos: Vector2, amount: int):
 func _on_enemy_reached_base():
 	base_hp -= 1
 	enemies_alive -= 1
+	
 	update_ui()
+	base_hit_feedback()
 	
 	if base_hp <= 0:
 		game_over()
@@ -133,6 +136,7 @@ func game_over():
 		$UI/GameOverPanel/ResultLabel.text = "You survived Wave " + str(wave)
 
 func _on_play_again_pressed():
+	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func check_wave_end():
@@ -324,3 +328,27 @@ func play_sfx(sound_name: String):
 	
 	var sound = get_node(path)
 	sound.play()
+
+func base_hit_feedback():
+	play_sfx("BaseHitSound")
+	animate_hp_panel_hit()
+
+func animate_hp_panel_hit():
+	var panel = $UI/TopBar/HPPanel
+	var original_pos = panel.position
+	var original_modulate = panel.modulate
+
+	panel.modulate = Color(1, 0.25, 0.25)
+
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	tween.tween_property(panel, "position", original_pos + Vector2(8, 0), 0.04)
+	tween.tween_property(panel, "modulate", original_modulate, 0.25)
+
+	await tween.finished
+
+	var shake_tween = create_tween()
+	shake_tween.tween_property(panel, "position", original_pos + Vector2(-8, 0), 0.04)
+	shake_tween.tween_property(panel, "position", original_pos + Vector2(5, 0), 0.04)
+	shake_tween.tween_property(panel, "position", original_pos, 0.04)

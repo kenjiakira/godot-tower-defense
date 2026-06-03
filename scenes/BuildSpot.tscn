@@ -17,3 +17,5 @@ color = Color(0.6977806, 0.7441453, 0.70931023, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1011019411]
 shape = SubResource("RectangleShape2D_824nf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1752408625]

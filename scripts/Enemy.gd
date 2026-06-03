@@ -34,9 +34,20 @@ func _process(delta):
 	
 	if progress_ratio >= 0.99:
 		has_reached_base = true
+		base_hit_effect()
 		reached_base.emit()
 		queue_free()
-		
+
+func base_hit_effect():
+	var cam = get_tree().get_first_node_in_group("main_camera")
+	if cam and cam.has_method("shake"):
+		if enemy_name == "Boss":
+			cam.shake(15)
+		elif enemy_name == "Tank":
+			cam.shake(10)
+		else:
+			cam.shake(6)
+
 func take_damage(damage):
 	hp -= damage
 	print(enemy_name, " HP:", hp)
@@ -73,6 +84,7 @@ func spawn_death_effect():
 func hit_flash():
 	if not has_node("Body"):
 		return 
+	
 	$Body.color = Color.WHITE
 	await get_tree().create_timer(0.08).timeout
 	$Body.color = enemy_color
