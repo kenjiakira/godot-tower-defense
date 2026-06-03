@@ -8,9 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_choun"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="7_trceg"]
+[ext_resource type="Texture2D" uid="uid://qpytxe76aa74" path="res://assets/ui/kenney/panel.png" id="8_a8y0u"]
 [ext_resource type="AudioStream" uid="uid://b7ky4nwgfcwwe" path="res://assets/sounds/shoot.mp3" id="8_tipki"]
 [ext_resource type="AudioStream" uid="uid://cl1k2xphk5ctj" path="res://assets/sounds/enemy_die.mp3" id="9_85g3d"]
+[ext_resource type="Texture2D" uid="uid://cedvs6uhcirhb" path="res://assets/ui/kenney/button_blue_pressed.png" id="9_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://bjqm15rkq4eab" path="res://assets/sounds/upgrade.mp3" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://cxy5b0tnuaq77" path="res://assets/ui/kenney/button_Yellow.png" id="10_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://cwyf62mdpq8pw" path="res://assets/sounds/button.mp3" id="11_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://0ift4xlvl63d" path="res://assets/sounds/game-over.mp3" id="12_eb6dy"]
 
@@ -20,7 +23,64 @@ _data = {
 }
 point_count = 9
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jkv2x"]
+texture = ExtResource("8_a8y0u")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a8y0u"]
+texture = ExtResource("8_a8y0u")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jbj1t"]
+texture = ExtResource("8_a8y0u")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_muem4"]
+texture = ExtResource("8_a8y0u")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dp3eg"]
+texture = ExtResource("9_jkv2x")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ld40"]
+texture = ExtResource("8_a8y0u")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_o6xl0"]
+font_size = 24
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gqmmt"]
+texture = ExtResource("10_jbj1t")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yc10j"]
+texture = ExtResource("10_jbj1t")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jscy8"]
+texture = ExtResource("10_jbj1t")
 
 [node name="Main" type="Node2D" unique_id=1517470390]
 script = ExtResource("1_o5qli")
@@ -54,33 +114,53 @@ loop = false
 [node name="UI" type="CanvasLayer" parent="." unique_id=1015302294]
 process_mode = 3
 
-[node name="MoneyLabel" type="Label" parent="UI" unique_id=721529833]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 109.0
-offset_bottom = 43.0
+[node name="TopBar" type="HBoxContainer" parent="UI" unique_id=2054514675]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="MoneyPanel" type="PanelContainer" parent="UI/TopBar" unique_id=796226313]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jkv2x")
+
+[node name="MoneyLabel" type="Label" parent="UI/TopBar/MoneyPanel" unique_id=721529833]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0839148, 0.71136755, 0, 1)
+theme_override_font_sizes/font_size = 24
 text = "Money: 100"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="HPLabel" type="Label" parent="UI" unique_id=1540006958]
-offset_left = 20.0
-offset_top = 50.0
-offset_right = 69.0
-offset_bottom = 99.0
-text = "HP: 10
-"
+[node name="HPPanel" type="PanelContainer" parent="UI/TopBar" unique_id=1096390907]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_a8y0u")
 
-[node name="WaveLabel" type="Label" parent="UI" unique_id=1090327012]
-offset_left = 20.0
-offset_top = 80.0
-offset_right = 80.0
-offset_bottom = 103.0
+[node name="HPLabel" type="Label" parent="UI/TopBar/HPPanel" unique_id=1540006958]
+layout_mode = 2
+theme_override_colors/font_color = Color(18.892157, 0, 0, 1)
+text = "HP: 10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WavePanel" type="PanelContainer" parent="UI/TopBar" unique_id=309139358]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jbj1t")
+
+[node name="WaveLabel" type="Label" parent="UI/TopBar/WavePanel" unique_id=1090327012]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.36078432, 0.5568628, 1, 1)
+theme_override_font_sizes/font_size = 24
 text = "$UI/WaveLabel.text = \"Wave: \" + str(wave)"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TowerPanel" type="Panel" parent="UI" unique_id=46876510]
 offset_left = 1027.0
 offset_top = 20.0
 offset_right = 1247.0
-offset_bottom = 150.0
+offset_bottom = 160.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_muem4")
 
 [node name="TowerInfoLabel" type="Label" parent="UI/TowerPanel" unique_id=998524754]
 layout_mode = 0
@@ -88,7 +168,8 @@ offset_left = 10.0
 offset_top = 10.0
 offset_right = 93.0
 offset_bottom = 33.0
-text = "Tower Info"
+theme_override_colors/font_color = Color(0, 0.5732847, 0.933302, 1)
+text = "TOWN INFO"
 
 [node name="UpgradeButton" type="Button" parent="UI/TowerPanel" unique_id=517617287]
 layout_mode = 0
@@ -96,20 +177,22 @@ offset_left = 10.0
 offset_top = 83.0
 offset_right = 210.0
 offset_bottom = 118.0
-text = "Upgrade"
+theme_override_styles/normal = SubResource("StyleBoxTexture_dp3eg")
+text = "UPGRADE"
 
 [node name="GameOverPanel" type="Panel" parent="UI" unique_id=1364974723]
 offset_left = 450.0
 offset_top = 250.0
 offset_right = 810.0
-offset_bottom = 410.0
+offset_bottom = 456.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_0ld40")
 
 [node name="GameOverLabel" type="Label" parent="UI/GameOverPanel" unique_id=1608226782]
 layout_mode = 0
-offset_left = 138.0
+offset_left = 113.0
 offset_top = 24.0
-offset_right = 225.0
-offset_bottom = 47.0
+offset_right = 251.0
+offset_bottom = 58.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_o6xl0")
@@ -117,9 +200,10 @@ label_settings = SubResource("LabelSettings_o6xl0")
 [node name="ResultLabel" type="Label" parent="UI/GameOverPanel" unique_id=1091026966]
 layout_mode = 0
 offset_left = 121.0
-offset_top = 59.0
+offset_top = 72.0
 offset_right = 241.0
-offset_bottom = 96.0
+offset_bottom = 109.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 12
 text = "You survived Wave 1
 "
@@ -127,10 +211,14 @@ text = "You survived Wave 1
 [node name="PlayAgainButton" type="Button" parent="UI/GameOverPanel" unique_id=457683541]
 layout_mode = 0
 offset_left = 138.0
-offset_top = 107.0
+offset_top = 140.0
 offset_right = 225.0
-offset_bottom = 141.0
+offset_bottom = 182.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_gqmmt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_yc10j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jscy8")
 text = "Play Again"
 
 [node name="PauseButton" type="Button" parent="UI" unique_id=2057767937]
@@ -145,7 +233,7 @@ text = "Pause"
 [node name="BuildSpots" type="Node2D" parent="." unique_id=1127812382]
 
 [node name="BuildSpot" parent="BuildSpots" unique_id=19279728 instance=ExtResource("4_jyhfs")]
-position = Vector2(631, 333)
+position = Vector2(631, 346)
 
 [node name="BuildSpot2" parent="BuildSpots" unique_id=1530382470 instance=ExtResource("4_jyhfs")]
 position = Vector2(412, 201)

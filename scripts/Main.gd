@@ -108,7 +108,7 @@ func spawn_coin_text(world_pos: Vector2, amount: int):
 	text.global_position = world_pos + Vector2(0, -45)
 	text.setup_text("+" + str(amount) + "$", Color.GOLD)
 
-	var target_pos = $UI/MoneyLabel.global_position
+	var target_pos = $UI/TopBar/MoneyPanel/MoneyLabel.global_position
 	text.fly_to(target_pos)
 
 func _on_enemy_reached_base():
@@ -148,18 +148,15 @@ func start_next_wave():
 	print("Wave", wave)
 
 func _input(event):
+	if $UI/GameOverPanel.visible:
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			
-			if $UI/TowerPanel.visible:
-				var panel_rect = Rect2(
-					$UI/TowerPanel.global_position,
-					$UI/TowerPanel.size
-				)
-				
-				if panel_rect.has_point(event.position):
-					return
-			
+
+			if is_click_on_ui(event.position):
+				return
+
 			var mouse_pos = get_global_mouse_position()
 			
 			var clicked_tower = get_tower_body_at(mouse_pos)
@@ -168,7 +165,21 @@ func _input(event):
 				return
 			
 			try_place_tower(mouse_pos)
+func is_click_on_ui(pos: Vector2) -> bool:
+	var ui_nodes = [
+		$UI/TopBar,
+		$UI/TowerPanel,
+		$UI/PauseButton
+	]
 
+	for node in ui_nodes:
+		if node.visible:
+			var rect = Rect2(node.global_position, node.size)
+			if rect.has_point(pos):
+				return true
+
+	return false
+	
 func get_tower_body_at(mouse_pos):
 	for tower in $Towers.get_children():
 		var distance = tower.global_position.distance_to(mouse_pos)
@@ -177,7 +188,7 @@ func get_tower_body_at(mouse_pos):
 			return tower
 	
 	return null
-
+	
 func try_place_tower(mouse_pos):
 	var clicked_spot = get_build_spot_at(mouse_pos)
 	
@@ -241,9 +252,9 @@ func deselect_tower():
 	$UI/TowerPanel.visible = false
 
 func update_ui():
-	$UI/MoneyLabel.text = "Money: " + str(money)
-	$UI/HPLabel.text = "HP: " + str(base_hp)
-	$UI/WaveLabel.text = "Wave: " + str(wave)
+	$UI/TopBar/MoneyPanel/MoneyLabel.text = "Money: " + str(money)
+	$UI/TopBar/HPPanel/HPLabel.text = "HP: " + str(base_hp)
+	$UI/TopBar/WavePanel/WaveLabel.text = "Wave: " + str(wave)
 
 func update_tower_panel():
 	if selected_tower == null:
