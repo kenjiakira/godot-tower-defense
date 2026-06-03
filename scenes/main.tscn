@@ -12,7 +12,9 @@
 [ext_resource type="AudioStream" uid="uid://b7ky4nwgfcwwe" path="res://assets/sounds/shoot.mp3" id="8_tipki"]
 [ext_resource type="AudioStream" uid="uid://cl1k2xphk5ctj" path="res://assets/sounds/enemy_die.mp3" id="9_85g3d"]
 [ext_resource type="Texture2D" uid="uid://cedvs6uhcirhb" path="res://assets/ui/kenney/button_blue_pressed.png" id="9_jkv2x"]
+[ext_resource type="Texture2D" uid="uid://bq1yj8smyj27w" path="res://assets/ui/kenney/coin.png" id="9_muem4"]
 [ext_resource type="AudioStream" uid="uid://bjqm15rkq4eab" path="res://assets/sounds/upgrade.mp3" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://cnh6nleysolbg" path="res://assets/ui/kenney/heart.png" id="10_dp3eg"]
 [ext_resource type="Texture2D" uid="uid://cxy5b0tnuaq77" path="res://assets/ui/kenney/button_Yellow.png" id="10_jbj1t"]
 [ext_resource type="AudioStream" uid="uid://cwyf62mdpq8pw" path="res://assets/sounds/button.mp3" id="11_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://0ift4xlvl63d" path="res://assets/sounds/game-over.mp3" id="12_eb6dy"]
@@ -115,31 +117,61 @@ loop = false
 process_mode = 3
 
 [node name="TopBar" type="HBoxContainer" parent="UI" unique_id=2054514675]
-anchors_preset = 10
-anchor_right = 1.0
-grow_horizontal = 2
+offset_right = 745.0
+offset_bottom = 64.0
 theme_override_constants/separation = 20
 
 [node name="MoneyPanel" type="PanelContainer" parent="UI/TopBar" unique_id=796226313]
+custom_minimum_size = Vector2(100, 44)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_jkv2x")
 
-[node name="MoneyLabel" type="Label" parent="UI/TopBar/MoneyPanel" unique_id=721529833]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TopBar/MoneyPanel" unique_id=529214122]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="UI/TopBar/MoneyPanel/HBoxContainer" unique_id=1696586866]
+clip_contents = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_muem4")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MoneyLabel" type="Label" parent="UI/TopBar/MoneyPanel/HBoxContainer" unique_id=721529833]
 layout_mode = 2
 theme_override_colors/font_color = Color(1.0839148, 0.71136755, 0, 1)
-theme_override_font_sizes/font_size = 24
-text = "Money: 100"
+theme_override_font_sizes/font_size = 18
+text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HPPanel" type="PanelContainer" parent="UI/TopBar" unique_id=1096390907]
+custom_minimum_size = Vector2(100, 44)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_a8y0u")
 
-[node name="HPLabel" type="Label" parent="UI/TopBar/HPPanel" unique_id=1540006958]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TopBar/HPPanel" unique_id=1791473504]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="HeartIcon" type="TextureRect" parent="UI/TopBar/HPPanel/HBoxContainer" unique_id=1176627007]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_dp3eg")
+expand_mode = 3
+
+[node name="HPLabel" type="Label" parent="UI/TopBar/HPPanel/HBoxContainer" unique_id=1540006958]
 layout_mode = 2
 theme_override_colors/font_color = Color(18.892157, 0, 0, 1)
-text = "HP: 10"
+theme_override_font_sizes/font_size = 18
+text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
 

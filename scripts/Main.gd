@@ -108,7 +108,7 @@ func spawn_coin_text(world_pos: Vector2, amount: int):
 	text.global_position = world_pos + Vector2(0, -45)
 	text.setup_text("+" + str(amount) + "$", Color.GOLD)
 
-	var target_pos = $UI/TopBar/MoneyPanel/MoneyLabel.global_position
+	var target_pos = $UI/TopBar/MoneyPanel/HBoxContainer/MoneyLabel.global_position
 	text.fly_to(target_pos)
 
 func _on_enemy_reached_base():
@@ -252,9 +252,24 @@ func deselect_tower():
 	$UI/TowerPanel.visible = false
 
 func update_ui():
-	$UI/TopBar/MoneyPanel/MoneyLabel.text = "Money: " + str(money)
-	$UI/TopBar/HPPanel/HPLabel.text = "HP: " + str(base_hp)
+	$UI/TopBar/MoneyPanel/HBoxContainer/MoneyLabel.text = str(money)
+	$UI/TopBar/HPPanel/HBoxContainer/HPLabel.text = str(base_hp)
 	$UI/TopBar/WavePanel/WaveLabel.text = "Wave: " + str(wave)
+	
+	animate_money_panel()
+
+func animate_money_panel():
+	var panel = $UI/TopBar/MoneyPanel
+
+	panel.scale = Vector2(1.2, 1.2)
+
+	var tween = create_tween()
+	tween.tween_property(
+		panel,
+		"scale",
+		Vector2.ONE,
+		0.15
+	)
 
 func update_tower_panel():
 	if selected_tower == null:
