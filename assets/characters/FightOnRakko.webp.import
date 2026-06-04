@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7e18itlnnmd2"
-valid=false
+uid="uid://ck7h6vq3ka46x"
+path="res://.godot/imported/FightOnRakko.webp-fffbbac20e9f20549ffbb28a80c830b5.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
-source_file="res://assets/characters/hachiware.png"
+source_file="res://assets/characters/FightOnRakko.webp"
+dest_files=["res://.godot/imported/FightOnRakko.webp-fffbbac20e9f20549ffbb28a80c830b5.ctex"]
 
 [params]
 

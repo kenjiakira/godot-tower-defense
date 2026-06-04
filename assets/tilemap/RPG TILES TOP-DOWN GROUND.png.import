@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuwm6e5pf7fwp"
-path="res://.godot/imported/hachiware_sheet.png-8c99aa14c515cb8baf52d007a7caceaf.ctex"
+uid="uid://bifbmxjj1vym1"
+path="res://.godot/imported/RPG TILES TOP-DOWN GROUND.png-4f63cab71ea841d467981ff698b50d06.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/hachiware_sheet.png"
-dest_files=["res://.godot/imported/hachiware_sheet.png-8c99aa14c515cb8baf52d007a7caceaf.ctex"]
+source_file="res://assets/tilemap/RPG TILES TOP-DOWN GROUND.png"
+dest_files=["res://.godot/imported/RPG TILES TOP-DOWN GROUND.png-4f63cab71ea841d467981ff698b50d06.ctex"]
 
 [params]
 

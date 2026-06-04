@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_lgpsf"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_rbl8f"]
 [ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_jo5ro"]
+[ext_resource type="Texture2D" uid="uid://ck7h6vq3ka46x" path="res://assets/characters/FightOnRakko.webp" id="4_i0qa3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
@@ -12,18 +13,14 @@ script = ExtResource("1_lgpsf")
 speed = 75.0
 max_hp = 1000
 reward = 100
-enemy_color = Color(0.5329696, 0.0037522733, 0.9712061, 1)
 floating_text_scene = ExtResource("2_rbl8f")
 death_effect_scene = ExtResource("3_jo5ro")
-
-[node name="Body" type="ColorRect" parent="." unique_id=1839885312]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.9785543, 0.15717342, 0, 1)
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=713646102 groups=["enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=363432730]
 shape = SubResource("CircleShape2D_7p1mj")
+
+[node name="Body" type="Sprite2D" parent="." unique_id=1660713852]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_i0qa3")

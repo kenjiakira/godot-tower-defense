@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_tj60o"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_wmqtm"]
 [ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_2ijw2"]
+[ext_resource type="Texture2D" uid="uid://bgj6n0qxrp8ok" path="res://assets/characters/Momonga.webp" id="4_un35s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
@@ -15,14 +16,11 @@ reward = 30
 floating_text_scene = ExtResource("2_wmqtm")
 death_effect_scene = ExtResource("3_2ijw2")
 
-[node name="Body" type="ColorRect" parent="." unique_id=1839885312]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.19440061, 0.5606, 0.999965, 1)
-
 [node name="Hitbox" type="Area2D" parent="." unique_id=713646102 groups=["enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=363432730]
 shape = SubResource("CircleShape2D_7p1mj")
+
+[node name="Body" type="Sprite2D" parent="." unique_id=2033664601]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("4_un35s")
