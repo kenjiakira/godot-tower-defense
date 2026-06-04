@@ -1,7 +1,205 @@
 [gd_scene format=3 uid="uid://dlklusnerorna"]
 
+[ext_resource type="Script" uid="uid://bqedpu4u6qx8w" path="res://scripts/MainMenu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://ca6hcnlmncvxm" path="res://assets/ui/background.png" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://csea5n03hggo7" path="res://assets/ui/logo.png" id="3_bqqt6"]
+[ext_resource type="Script" uid="uid://biyrghatlno2q" path="res://logo.gd" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://bl8druppccoxt" path="res://assets/ui/button/play_button.png" id="5_8ln24"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtw2f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oa1go"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tbmy8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oa1go"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jk1qb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ln24"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lgwnu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5dd4i"]
+
 [node name="MainMenu" type="Control" unique_id=1339397506]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+
+[node name="Background" type="TextureRect" parent="." unique_id=778430908]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ekxnf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterBox" type="VBoxContainer" parent="." unique_id=1310764821]
+custom_minimum_size = Vector2(360, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -150.0
+offset_right = 180.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="CenterBox" unique_id=747222986]
+custom_minimum_size = Vector2(500, 220)
+layout_mode = 2
+texture = ExtResource("3_bqqt6")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("4_wu84c")
+
+[node name="PlayButton" type="Button" parent="CenterBox" unique_id=2387449]
+custom_minimum_size = Vector2(260, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rtw2f")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oa1go")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_tbmy8")
+
+[node name="BG" type="TextureRect" parent="CenterBox/PlayButton" unique_id=1397804402]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_8ln24")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="CenterBox/PlayButton" unique_id=62334202]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HowToPlayButton" type="Button" parent="CenterBox" unique_id=1529212162]
+custom_minimum_size = Vector2(260, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_oa1go")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jk1qb")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_8ln24")
+
+[node name="BG" type="TextureRect" parent="CenterBox/HowToPlayButton" unique_id=1756023294]
+self_modulate = Color(0.79607844, 0.8392157, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_8ln24")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="CenterBox/HowToPlayButton" unique_id=1681922007]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="Button" parent="CenterBox" unique_id=2013548418]
+custom_minimum_size = Vector2(260, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_lgwnu")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5dd4i")
+text = "QUIT"
+
+[node name="BG" type="TextureRect" parent="CenterBox/QuitButton" unique_id=1745308400]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_8ln24")
+expand_mode = 1
+
+[node name="Text" type="Label" parent="CenterBox/QuitButton" unique_id=705465015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "QUIT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HowToPlayPanel" type="Panel" parent="." unique_id=1339789050]
+visible = false
+custom_minimum_size = Vector2(520, 320)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextLabel" type="Label" parent="HowToPlayPanel" unique_id=1971479510]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = -63.5
+offset_right = 153.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Place Hachiware towers on build spots.
+Towers throw fish at enemies.
+Defeat enemies to earn coins.
+Upgrade towers to survive more waves.
+Don't let enemies reach the base!"
+
+[node name="CloseButton" type="Button" parent="HowToPlayPanel" unique_id=2051020980]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "CLOSE"
