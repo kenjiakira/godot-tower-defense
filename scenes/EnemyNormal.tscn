@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_iq1te"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_fbvhx"]
 [ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_cptk2"]
+[ext_resource type="PackedScene" uid="uid://d3cd4v2vwo4af" path="res://scenes/ui/enemy_hp_bar.tscn" id="4_3gv7j"]
 [ext_resource type="Texture2D" uid="uid://dbiufyg6fefpi" path="res://assets/characters/AdorableCutieChiikawa.webp" id="4_il05o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
@@ -12,6 +13,7 @@ radius = 12.0
 script = ExtResource("1_iq1te")
 floating_text_scene = ExtResource("2_fbvhx")
 death_effect_scene = ExtResource("3_cptk2")
+hpbar_scene = ExtResource("4_3gv7j")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=713646102 groups=["enemy"]]
 

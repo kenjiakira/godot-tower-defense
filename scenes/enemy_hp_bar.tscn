@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b3ink5u6ykvbc"]
+
+[node name="EnemyHPBar" type="Node2D" unique_id=1712180482]
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=737920035]
+offset_left = -26.0
+offset_top = -31.0
+offset_right = 26.0
+offset_bottom = -23.0
+show_percentage = false

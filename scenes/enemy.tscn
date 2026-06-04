@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_3gvst"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3gvst"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55jtl"]
+bg_color = Color(1, 0, 0, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_7p1mj"]
 radius = 12.0
 
@@ -9,14 +15,18 @@ radius = 12.0
 script = ExtResource("1_3gvst")
 
 [node name="HPBar" type="ProgressBar" parent="." unique_id=94128904]
+z_index = 10
 offset_left = -20.0
-offset_top = -44.0
+offset_top = -32.0
 offset_right = 20.0
-offset_bottom = -17.0
+offset_bottom = -26.0
+theme_override_styles/background = SubResource("StyleBoxFlat_3gvst")
+theme_override_styles/fill = SubResource("StyleBoxFlat_55jtl")
 value = 100.0
 show_percentage = false
 
 [node name="Body" type="ColorRect" parent="." unique_id=1839885312]
+z_index = 1
 offset_left = -12.0
 offset_top = -12.0
 offset_right = 12.0

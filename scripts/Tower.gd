@@ -9,7 +9,20 @@ var damage := 25
 var fire_rate := 0.6
 var upgrade_cost := 80
 
+var base_cost := 50
+var total_spent := 50
+
 var enemies = []
+
+var is_selected := false
+var range_rotation := 0.0
+var range_rotate_speed := 0.3
+
+var dash_count := 48
+var dash_ratio := 0.55
+var range_line_width := 3.0
+var range_color := Color(0.65, 0.943, 1.0, 0.85)
+
 
 func _ready():
 	apply_level_stats()
@@ -21,9 +34,57 @@ func _ready():
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
 	
+	# Nếu vẫn còn node RangePreview cũ thì ẩn nó đi
 	if has_node("RangePreview"):
-		draw_range_preview()
 		$RangePreview.visible = false
+
+
+func _process(delta):
+	if is_selected:
+		range_rotation += delta * range_rotate_speed
+		queue_redraw()
+
+
+func _draw():
+	if not is_selected:
+		return
+	
+	var radius := float(get_range())
+	
+	if radius <= 0:
+		return
+	
+	draw_dashed_circle(radius)
+
+
+func draw_dashed_circle(radius: float):
+	for i in range(dash_count):
+		var start_angle := TAU * float(i) / float(dash_count) + range_rotation
+		var end_angle := TAU * (float(i) + dash_ratio) / float(dash_count) + range_rotation
+		
+		var start_pos := Vector2(
+			cos(start_angle),
+			sin(start_angle)
+		) * radius
+		
+		var end_pos := Vector2(
+			cos(end_angle),
+			sin(end_angle)
+		) * radius
+		
+		draw_line(
+			start_pos,
+			end_pos,
+			range_color,
+			range_line_width,
+			true
+		)
+
+
+func setup_cost(cost: int):
+	base_cost = cost
+	total_spent = cost
+
 
 func apply_level_stats():
 	if level == 1:
@@ -48,70 +109,80 @@ func apply_level_stats():
 	if has_node("ShootTimer"):
 		$ShootTimer.wait_time = fire_rate
 	
-	draw_range_preview()
+	queue_redraw()
+
+
+func upgrade():
+	if not can_upgrade():
+		return false
+	
+	total_spent += upgrade_cost
+	level += 1
+	apply_level_stats()
+	return true
+
+
+func get_sell_value():
+	return int(total_spent * 0.7)
+
+
+func get_town_data():
+	return {
+		"level": level,
+		"max_level": max_level,
+		"damage": damage,
+		"range": get_range(),
+		"fire_rate": fire_rate,
+		"upgrade_cost": upgrade_cost,
+		"sell_value": get_sell_value(),
+		"can_upgrade": can_upgrade()
+	}
+
+
+func get_range():
+	if has_node("CollisionShape2D"):
+		var shape = $CollisionShape2D.shape
+		if shape is CircleShape2D:
+			return int(shape.radius)
+	return 0
+
+
+func can_upgrade():
+	return level < max_level
+
+
+func get_upgrade_cost():
+	return upgrade_cost
+
 
 func set_body_color(color: Color):
 	if has_node("Body"):
 		$Body.modulate = color
+
 
 func set_range(radius):
 	if has_node("CollisionShape2D"):
 		var shape = $CollisionShape2D.shape
 		if shape is CircleShape2D:
 			shape.radius = radius
+	
+	queue_redraw()
 
-func draw_range_preview():
-	if not has_node("RangePreview"):
-		return
-	
-	var radius := 150.0
-	
-	if has_node("CollisionShape2D"):
-		var shape = $CollisionShape2D.shape
-		if shape is CircleShape2D:
-			radius = shape.radius
-	
-	var points = []
-	var segments := 64
-	
-	for i in range(segments + 1):
-		var angle = TAU * i / segments
-		points.append(Vector2(cos(angle), sin(angle)) * radius)
-	
-	$RangePreview.points = points
 
 func set_selected(value):
-	if has_node("RangePreview"):
-		$RangePreview.visible = value
+	is_selected = value
+	queue_redraw()
 
-func can_upgrade():
-	return level < max_level
-
-func upgrade():
-	if not can_upgrade():
-		return false
-	
-	level += 1
-	apply_level_stats()
-	print("Tower upgraded to level:", level)
-	return true
-
-func get_upgrade_cost():
-	return upgrade_cost
-
-func get_info_text():
-	if can_upgrade():
-		return "Tower Lv" + str(level) + "\nDamage: " + str(damage) + "\nUpgrade: " + str(upgrade_cost)
-	else:
-		return "Tower Lv" + str(level) + "\nDamage: " + str(damage) + "\nMAX LEVEL"
 
 func _on_area_entered(area):
 	if area.is_in_group("enemy"):
 		enemies.append(area.get_parent())
 
+
 func _on_area_exited(area):
 	if area.is_in_group("enemy"):
 		enemies.erase(area.get_parent())
+
 
 func shoot():
 	enemies = enemies.filter(func(e): return is_instance_valid(e))
@@ -130,6 +201,5 @@ func shoot():
 	bullet.global_position = global_position
 	bullet.setup(target, damage, 0)
 	
-	var main = get_tree().current_scene
-	if main.has_method("play_sfx"):
-		main.play_sfx("ShootSound")
+	var audio_manager = get_tree().current_scene.get_node("Managers/AudioManager")
+	audio_manager.play_sfx("ShootSound")

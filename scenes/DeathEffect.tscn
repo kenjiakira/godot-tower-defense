@@ -6,7 +6,7 @@
 script = ExtResource("1_6xq5i")
 
 [node name="Body" type="ColorRect" parent="." unique_id=1568630238]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0

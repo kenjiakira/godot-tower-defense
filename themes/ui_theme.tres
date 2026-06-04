@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://tgh8hs7stqnh"]
+
+[ext_resource type="FontFile" uid="uid://catsr7ya8oo8v" path="res://assets/fonts/Fredoka_Condensed-Bold.ttf" id="1_xxbg1"]
+
+[resource]
+default_font = ExtResource("1_xxbg1")
+default_font_size = 18

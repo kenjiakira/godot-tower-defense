@@ -3,7 +3,7 @@ extends Label
 var velocity := Vector2(0, -40)
 var lifetime := 0.8
 var timer := 0.0
-
+var warning_tween: Tween
 var fly_to_target := false
 var target_position := Vector2.ZERO
 var fly_speed := 500.0
@@ -21,7 +21,7 @@ func _process(delta):
 
 	if fly_to_target:
 		global_position = global_position.move_toward(target_position, fly_speed * delta)
-		
+			
 		if global_position.distance_to(target_position) < 10:
 			queue_free()
 	else:
