@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bwaaq8ih7mpk3"]
 
-[ext_resource type="Script" uid="uid://beqcwoig7o13x" path="res://scripts/TownHall.gd" id="1_axumy"]
+[ext_resource type="Script" uid="uid://beqcwoig7o13x" path="res://scripts/entities/world/TownHall.gd" id="1_axumy"]
 [ext_resource type="Texture2D" uid="uid://bpejxj4u3wkcm" path="res://assets/townhall.png" id="1_sg6n4"]
 
 [node name="TownHall" type="Node2D" unique_id=1814094919]

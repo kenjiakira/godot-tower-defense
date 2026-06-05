@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dm5ovj0cdh048"]
 
-[ext_resource type="Script" uid="uid://08m55edd6xei" path="res://scripts/Bullet.gd" id="1_bullet"]
+[ext_resource type="Script" uid="uid://08m55edd6xei" path="res://scripts/entities/projectiles/Bullet.gd" id="1_bullet"]
 [ext_resource type="Texture2D" uid="uid://ckvxdnl55b5k4" path="res://assets/tower/bullets/slow_bullet.png" id="2_4hegi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_slow"]

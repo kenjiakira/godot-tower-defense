@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://d3cd4v2vwo4af"]
+[gd_scene load_steps=2 format=3 uid="uid://d3cd4v2vwo4af"]
 
-[ext_resource type="Script" uid="uid://b05e1wofvfpfv" path="res://scripts/ui/EnemyHPBar.gd" id="1_orplq"]
+[ext_resource type="Script" uid="uid://b05e1wofvfpfv" path="res://scripts/ui/components/EnemyHPBar.gd" id="1_orplq"]
 
 [node name="EnemyHPBar" type="Node2D" unique_id=1610096136]
 script = ExtResource("1_orplq")

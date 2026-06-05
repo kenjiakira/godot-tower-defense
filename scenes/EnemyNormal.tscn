@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://3fcekdfkhhos"]
 
-[ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/Enemy.gd" id="1_iq1te"]
+[ext_resource type="Script" uid="uid://3x1ddn2rypjt" path="res://scripts/entities/enemies/Enemy.gd" id="1_iq1te"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="2_fbvhx"]
 [ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="3_cptk2"]
 [ext_resource type="PackedScene" uid="uid://d3cd4v2vwo4af" path="res://scenes/ui/enemy_hp_bar.tscn" id="4_3gv7j"]

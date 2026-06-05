@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dnl853pp4mqt0"]
 
-[ext_resource type="Script" uid="uid://br7u6pihxq2f" path="res://scripts/DeathEffect.gd" id="1_6xq5i"]
+[ext_resource type="Script" uid="uid://br7u6pihxq2f" path="res://scripts/effects/DeathEffect.gd" id="1_6xq5i"]
 
 [node name="DeathEffect" type="Node2D" unique_id=1421064700]
 script = ExtResource("1_6xq5i")

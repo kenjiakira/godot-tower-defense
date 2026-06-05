@@ -35,19 +35,29 @@ var tower_name := "Basic"
 var tower_description := "Basic tower"
 var fire_color := Color.WHITE
 
+var build_manager = null
+var projectiles_root: Node = null
+var audio_manager: Node = null
+
 
 func _ready():
 	apply_level_stats()
-	
+
 	if has_node("ShootTimer"):
 		$ShootTimer.timeout.connect(shoot)
 		$ShootTimer.start()
-	
+
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
-	
+
 	if has_node("RangePreview"):
 		$RangePreview.visible = false
+
+
+func setup_dependencies(manager, bullets_root: Node, audio):
+	build_manager = manager
+	projectiles_root = bullets_root
+	audio_manager = audio
 
 
 func _process(delta):
@@ -59,12 +69,12 @@ func _process(delta):
 func _draw():
 	if not is_selected:
 		return
-	
+
 	var radius := float(get_range())
-	
+
 	if radius <= 0:
 		return
-	
+
 	draw_dashed_circle(radius)
 
 
@@ -72,17 +82,17 @@ func draw_dashed_circle(radius: float):
 	for i in range(dash_count):
 		var start_angle := TAU * float(i) / float(dash_count) + range_rotation
 		var end_angle := TAU * (float(i) + dash_ratio) / float(dash_count) + range_rotation
-		
+
 		var start_pos := Vector2(
 			cos(start_angle),
 			sin(start_angle)
 		) * radius
-		
+
 		var end_pos := Vector2(
 			cos(end_angle),
 			sin(end_angle)
 		) * radius
-		
+
 		draw_line(
 			start_pos,
 			end_pos,
@@ -98,65 +108,28 @@ func setup_cost(cost: int):
 
 
 func apply_level_stats():
-	match tower_type:
-		TowerType.BASIC:
-			tower_name = "Basic"
-			tower_description = "Basic tower"
-			fire_color = Color.WHITE
-			set_range(150) if level == 1 else 0
-			damage = [40, 65, 100][level - 1]
-			fire_rate = [0.6, 0.45, 0.3][level - 1]
-			upgrade_cost = [80, 150, 0][level - 1]
-			range_color = Color(0.65, 0.943, 1.0, 0.85)
-			
-		TowerType.AOE:
-			tower_name = "AOE"
-			tower_description = "Hits multiple targets"
-			fire_color = Color.ORANGE
-			set_range(140) if level == 1 else 0
-			damage = [35, 55, 80][level - 1]
-			fire_rate = [0.9, 0.75, 0.6][level - 1]
-			upgrade_cost = [100, 180, 0][level - 1]
-			range_color = Color(1.0, 0.5, 0.0, 0.85)
-			
-		TowerType.SNIPER:
-			tower_name = "Sniper"
-			tower_description = "High damage, slow attack speed"
-			fire_color = Color.BLUE
-			set_range(300) if level == 1 else 0
-			damage = [100, 150, 220][level - 1]
-			fire_rate = [2.0, 1.6, 1.2][level - 1]
-			upgrade_cost = [160, 280, 0][level - 1]
-			range_color = Color(0.2, 0.4, 1.0, 0.85)
-			
-		TowerType.SLOW:
-			tower_name = "Slow"
-			tower_description = "Slows enemies"
-			fire_color = Color.CYAN
-			set_range(140) if level == 1 else 0
-			damage = [15, 25, 40][level - 1]
-			fire_rate = [0.5, 0.4, 0.3][level - 1]
-			upgrade_cost = [90, 170, 0][level - 1]
-			range_color = Color(0.0, 1.0, 1.0, 0.85)
-	
+	var stats = GameConfig.get_tower_stats(tower_type, level)
+	tower_name = stats["name"]
+	tower_description = stats["description"]
+	fire_color = stats["fire_color"]
+	damage = stats["damage"]
+	fire_rate = stats["fire_rate"]
+	upgrade_cost = stats["upgrade_cost"]
+	range_color = stats["range_color"]
+	set_range(stats["range"])
+
 	set_body_color(Color.WHITE)
-	
-	if level > 1:
-		set_range([150, 180, 220][level - 1]) if tower_type == TowerType.BASIC else 0
-		set_range([140, 160, 180][level - 1]) if tower_type == TowerType.AOE else 0
-		set_range([300, 340, 380][level - 1]) if tower_type == TowerType.SNIPER else 0
-		set_range([140, 160, 180][level - 1]) if tower_type == TowerType.SLOW else 0
-	
+
 	if has_node("ShootTimer"):
 		$ShootTimer.wait_time = fire_rate
-	
+
 	queue_redraw()
 
 
 func upgrade():
 	if not can_upgrade():
 		return false
-	
+
 	total_spent += upgrade_cost
 	level += 1
 	apply_level_stats()
@@ -209,7 +182,7 @@ func set_range(radius):
 		var shape = $CollisionShape2D.shape
 		if shape is CircleShape2D:
 			shape.radius = radius
-	
+
 	queue_redraw()
 
 
@@ -230,61 +203,59 @@ func _on_area_exited(area):
 
 func shoot():
 	enemies = enemies.filter(func(e): return is_instance_valid(e))
-	
+
 	if enemies.is_empty():
 		return
-	
+
 	var target = enemies[0]
-	
+
 	if tower_type == TowerType.SNIPER and enemies.size() > 1:
 		target = get_strongest_enemy()
-	
+
 	if tower_type == TowerType.SLOW and enemies.size() > 1:
 		target = get_fastest_enemy()
-	
-	if bullet_scene == null:
-		print("Bullet scene is not assigned")
-		return
-	
-	var build_manager = get_tree().current_scene.get_node("Managers/BuildManager")
-	var bullet_scene_to_use = build_manager.get_bullet_scene_for_type(tower_type)
-	if bullet_scene_to_use == null:
-		bullet_scene_to_use = bullet_scene
+
+	var bullet_scene_to_use: PackedScene = bullet_scene
+	if build_manager and build_manager.has_method("get_bullet_scene_for_type"):
+		bullet_scene_to_use = build_manager.get_bullet_scene_for_type(tower_type)
 	if bullet_scene_to_use == null:
 		print("Bullet scene is not assigned")
 		return
-	
+
 	var bullet = bullet_scene_to_use.instantiate()
-	get_tree().current_scene.get_node("Bullets").add_child(bullet)
+	if projectiles_root != null:
+		projectiles_root.add_child(bullet)
+	else:
+		get_tree().current_scene.add_child(bullet)
 	bullet.global_position = global_position
 	bullet.setup(target, damage, tower_type, level)
-	
-	var audio_manager = get_tree().current_scene.get_node("Managers/AudioManager")
-	audio_manager.play_sfx("ShootSound")
+
+	if audio_manager and audio_manager.has_method("play_sfx"):
+		audio_manager.play_sfx("ShootSound")
 
 
 func get_strongest_enemy() -> Node:
 	var strongest = enemies[0]
 	var max_hp = 0
-	
+
 	for enemy in enemies:
 		if enemy.has_method("get_hp"):
 			var hp = enemy.get_hp()
 			if hp > max_hp:
 				max_hp = hp
 				strongest = enemy
-	
+
 	return strongest
 
 
 func get_fastest_enemy() -> Node:
 	var fastest = enemies[0]
 	var max_speed = fastest.speed if fastest.has_method("get") else 100.0
-	
+
 	for enemy in enemies:
 		var enemy_speed = enemy.speed if enemy.has_method("get") else 100.0
 		if enemy_speed > max_speed:
 			max_speed = enemy_speed
 			fastest = enemy
-	
+
 	return fastest

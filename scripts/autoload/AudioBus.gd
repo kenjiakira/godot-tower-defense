@@ -27,3 +27,8 @@ func play_enemy_spawn(enemy_name: String):
 			play_sfx("EmemyFastSound")
 		_:
 			play_sfx("EmemyNomalSound")
+
+
+func set_sound_enabled(enabled: bool):
+	var bus_index = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_mute(bus_index, not enabled)

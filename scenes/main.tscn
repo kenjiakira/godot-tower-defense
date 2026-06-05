@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ticqm3fnw6op"]
 
-[ext_resource type="Script" uid="uid://b883bngpatbf" path="res://scripts/Main.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b883bngpatbf" path="res://scripts/core/Main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://3fcekdfkhhos" path="res://scenes/EnemyNormal.tscn" id="2_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://dybj3c7qc8wi1" path="res://scenes/tower.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ov22oijrs83d" path="res://scenes/EnemyFast.tscn" id="3_tipki"]
@@ -35,15 +35,18 @@
 [ext_resource type="Theme" uid="uid://bvca2qly1f0ii" path="res://themes/lilitaone_font.tres" id="19_ty1g6"]
 [ext_resource type="Texture2D" uid="uid://c7var8wkmc2ow" path="res://assets/ui/button/wave_button.png" id="19_vc5cj"]
 [ext_resource type="Texture2D" uid="uid://c07ss2jeam37a" path="res://assets/ui/button/green_button.png" id="20_5q0nq"]
-[ext_resource type="Script" uid="uid://46qe6jekofb2" path="res://scripts/CameraShake.gd" id="20_gqmmt"]
+[ext_resource type="Script" uid="uid://cg7di2wahuts8" path="res://scripts/autoload/AudioBus.gd" id="20_audio_bus"]
+[ext_resource type="PackedScene" uid="uid://dnl853pp4mqt0" path="res://scenes/DeathEffect.tscn" id="20_death_effect_scene"]
+[ext_resource type="Script" uid="uid://bj434s3y50135" path="res://scripts/systems/EffectsManager.gd" id="20_effects_manager"]
+[ext_resource type="Script" uid="uid://46qe6jekofb2" path="res://scripts/effects/CameraShake.gd" id="20_gqmmt"]
 [ext_resource type="FontFile" uid="uid://catsr7ya8oo8v" path="res://assets/fonts/Fredoka_Condensed-Bold.ttf" id="20_j8jky"]
 [ext_resource type="Texture2D" uid="uid://crcib5mq22xaj" path="res://assets/ui/button/wave_button_hover.png" id="20_nvyfr"]
+[ext_resource type="Script" uid="uid://byafwefe2kxtc" path="res://scripts/systems/WaveManager.gd" id="20_wave_manager"]
 [ext_resource type="Texture2D" uid="uid://1k26vxv5kjsm" path="res://assets/ui/button/orange_button.png" id="21_dgi5k"]
 [ext_resource type="Texture2D" uid="uid://2ew5tv6txmja" path="res://assets/ui/button/wave_button_disable.png" id="22_j2jfr"]
 [ext_resource type="PackedScene" uid="uid://bwaaq8ih7mpk3" path="res://scenes/town_hall.tscn" id="25_og1vs"]
-[ext_resource type="Script" uid="uid://b1s5au0vgmov6" path="res://scripts/AudioManager.gd" id="26_2wyq8"]
-[ext_resource type="Script" uid="uid://bkhtf7m88mnq3" path="res://scripts/BuildManager.gd" id="27_2f3dj"]
-[ext_resource type="Script" uid="uid://uxowlnv0dvyo" path="res://scripts/UIManager.gd" id="27_vxglm"]
+[ext_resource type="Script" uid="uid://bkhtf7m88mnq3" path="res://scripts/systems/BuildManager.gd" id="27_2f3dj"]
+[ext_resource type="Script" uid="uid://uxowlnv0dvyo" path="res://scripts/systems/UIManager.gd" id="27_vxglm"]
 [ext_resource type="AudioStream" uid="uid://i54i60nn8y3x" path="res://assets/sounds/BGM.mp3" id="33_fuf3a"]
 [ext_resource type="AudioStream" uid="uid://22abwk7wr85l" path="res://assets/sounds/enemy/usagi.mp3" id="34_pibwh"]
 [ext_resource type="PackedScene" uid="uid://dx8q8mt4eibmw" path="res://scenes/ui/TowerSelectPanel.tscn" id="35_panel"]
@@ -1588,15 +1591,27 @@ script = ExtResource("20_gqmmt")
 [node name="Managers" type="Node" parent="." unique_id=1781598710]
 
 [node name="WaveManager" type="Node" parent="Managers" unique_id=1250650511]
+script = ExtResource("20_wave_manager")
+spawn_timer = NodePath("../../SpawnTimer")
+path_root = NodePath("../../Path2D")
+audio_manager = NodePath("../AudioManager")
+
+[node name="EffectsManager" type="Node" parent="Managers" unique_id=1250650512 groups=["effects_manager"]]
+script = ExtResource("20_effects_manager")
+floating_text_scene = ExtResource("7_trceg")
+death_effect_scene = ExtResource("20_death_effect_scene")
+effects_root = NodePath("../..")
 
 [node name="AudioManager" type="Node" parent="Managers" unique_id=774920074 node_paths=PackedStringArray("sfx_root")]
-script = ExtResource("26_2wyq8")
+script = ExtResource("20_audio_bus")
 sfx_root = NodePath("../../SFX")
 
-[node name="BuildManager" type="Node" parent="Managers" unique_id=160470354 node_paths=PackedStringArray("towers_root", "build_spots_root")]
+[node name="BuildManager" type="Node" parent="Managers" unique_id=160470354 node_paths=PackedStringArray("towers_root", "build_spots_root", "projectiles_root", "audio_manager")]
 script = ExtResource("27_2f3dj")
 towers_root = NodePath("../../Towers")
 build_spots_root = NodePath("../../BuildSpots")
+projectiles_root = NodePath("../../Bullets")
+audio_manager = NodePath("../AudioManager")
 tower_basic_scene = ExtResource("3_sugp2")
 tower_aoe_scene = ExtResource("4_aoe")
 tower_sniper_scene = ExtResource("5_sniper")

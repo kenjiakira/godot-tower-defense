@@ -1,17 +1,40 @@
 extends Node2D
 
-@onready var bar: ProgressBar = $ProgressBar
+var bar: ProgressBar
 
 func _ready():
+	if bar == null:
+		_create_bar()
 	setup_style()
 
+
+func initialize(max_hp: int):
+	if bar == null:
+		_create_bar()
+	setup(max_hp)
+
+
+func _create_bar():
+	bar = ProgressBar.new()
+	bar.name = "ProgressBar"
+	bar.position = Vector2(-20, -35)
+	bar.custom_minimum_size = Vector2(40, 6)
+	bar.show_percentage = false
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bar)
+
+
 func setup(max_hp: int):
+	if bar == null:
+		_create_bar()
 	bar.min_value = 0
 	bar.max_value = max_hp
 	bar.value = max_hp
 	bar.show_percentage = false
 
 func set_hp(value: int):
+	if bar == null:
+		_create_bar()
 	bar.value = value
 	
 	var ratio = bar.value / bar.max_value
@@ -27,6 +50,8 @@ func set_hp(value: int):
 	
 	bar.add_theme_stylebox_override("fill", fill)
 func setup_style():
+	if bar == null:
+		_create_bar()
 	var bg = StyleBoxFlat.new()
 	bg.bg_color = Color(0.08, 0.06, 0.05, 0.85)
 	bg.border_width_left = 1

@@ -2,6 +2,8 @@ extends Node
 
 @export var towers_root: Node2D
 @export var build_spots_root: Node2D
+@export var projectiles_root: Node2D
+@export var audio_manager: Node
 
 @export var tower_basic_scene: PackedScene
 @export var tower_aoe_scene: PackedScene
@@ -12,13 +14,6 @@ extends Node
 @export var bullet_aoe_scene: PackedScene
 @export var bullet_sniper_scene: PackedScene
 @export var bullet_slow_scene: PackedScene
-
-const TOWER_COSTS = {
-	0: 50,   # BASIC
-	1: 70,   # AOE
-	2: 100,  # SNIPER
-	3: 60    # SLOW
-}
 
 const TOWER_SCENES = {
 	0: "tower_basic_scene",
@@ -85,7 +80,7 @@ func get_bullet_scene_for_type(tower_type: int) -> PackedScene:
 
 
 func get_cost_for_type(tower_type: int) -> int:
-	return TOWER_COSTS.get(tower_type, 50)
+	return GameConfig.get_tower_cost(tower_type)
 
 
 func build_at(mouse_pos: Vector2, cost: int, tower_type: int = 0):
@@ -110,6 +105,9 @@ func build_at(mouse_pos: Vector2, cost: int, tower_type: int = 0):
 
 	if tower.has_method("setup_cost"):
 		tower.setup_cost(cost)
+
+	if tower.has_method("setup_dependencies"):
+		tower.setup_dependencies(self, projectiles_root, audio_manager)
 
 	spot.set_occupied(tower)
 
