@@ -22,7 +22,7 @@ func setup(_target, _damage, _tower_type, _tower_level = 1):
 			speed = 500
 		1:  # AOE
 			speed = 400
-			aoe_radius = 70 + tower_level * 15
+			aoe_radius = 85 + tower_level * 15
 		2:  # SNIPER
 			speed = 800
 		3:  # SLOW
@@ -73,4 +73,4 @@ func explode():
 			continue
 		
 		if global_position.distance_to(enemy.global_position) <= aoe_radius:
-			enemy.take_damage(int(damage * 0.5))
+			enemy.take_damage(int(damage * 0.7))  # 70% splash

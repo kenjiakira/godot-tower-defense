@@ -104,18 +104,18 @@ func apply_level_stats():
 			tower_description = "Tower canh trai"
 			fire_color = Color.WHITE
 			set_range(150) if level == 1 else 0
-			damage = [25, 45, 75][level - 1]
+			damage = [40, 65, 100][level - 1]
 			fire_rate = [0.6, 0.45, 0.3][level - 1]
-			upgrade_cost = [80, 140, 0][level - 1]
+			upgrade_cost = [80, 150, 0][level - 1]
 			range_color = Color(0.65, 0.943, 1.0, 0.85)
 			
 		TowerType.AOE:
 			tower_name = "AOE"
 			tower_description = "Danh nhieu muc tieu"
 			fire_color = Color.ORANGE
-			set_range(120) if level == 1 else 0
-			damage = [15, 25, 40][level - 1]
-			fire_rate = [1.2, 1.0, 0.8][level - 1]
+			set_range(140) if level == 1 else 0
+			damage = [35, 55, 80][level - 1]
+			fire_rate = [0.9, 0.75, 0.6][level - 1]
 			upgrade_cost = [100, 180, 0][level - 1]
 			range_color = Color(1.0, 0.5, 0.0, 0.85)
 			
@@ -124,9 +124,9 @@ func apply_level_stats():
 			tower_description = "Damage cao, tan cong cham"
 			fire_color = Color.BLUE
 			set_range(300) if level == 1 else 0
-			damage = [75, 120, 180][level - 1]
+			damage = [100, 150, 220][level - 1]
 			fire_rate = [2.0, 1.6, 1.2][level - 1]
-			upgrade_cost = [150, 250, 0][level - 1]
+			upgrade_cost = [160, 280, 0][level - 1]
 			range_color = Color(0.2, 0.4, 1.0, 0.85)
 			
 		TowerType.SLOW:
@@ -134,16 +134,16 @@ func apply_level_stats():
 			tower_description = "Lam cham ke dich"
 			fire_color = Color.CYAN
 			set_range(140) if level == 1 else 0
-			damage = [10, 18, 30][level - 1]
+			damage = [15, 25, 40][level - 1]
 			fire_rate = [0.5, 0.4, 0.3][level - 1]
-			upgrade_cost = [90, 160, 0][level - 1]
+			upgrade_cost = [90, 170, 0][level - 1]
 			range_color = Color(0.0, 1.0, 1.0, 0.85)
 	
 	set_body_color(Color.WHITE)
 	
 	if level > 1:
 		set_range([150, 180, 220][level - 1]) if tower_type == TowerType.BASIC else 0
-		set_range([120, 140, 160][level - 1]) if tower_type == TowerType.AOE else 0
+		set_range([140, 160, 180][level - 1]) if tower_type == TowerType.AOE else 0
 		set_range([300, 340, 380][level - 1]) if tower_type == TowerType.SNIPER else 0
 		set_range([140, 160, 180][level - 1]) if tower_type == TowerType.SLOW else 0
 	

@@ -11,8 +11,8 @@ radius = 12.0
 
 [node name="Enemy" type="PathFollow2D" unique_id=1003752142 groups=["enemy"]]
 script = ExtResource("1_pflbe")
-speed = 180.0
-max_hp = 60
+speed = 200.0
+max_hp = 150
 reward = 15
 enemy_name = "Fast"
 floating_text_scene = ExtResource("2_i6vxi")

@@ -11,8 +11,8 @@ radius = 12.0
 
 [node name="Enemy" type="PathFollow2D" unique_id=1003752142 groups=["enemy"]]
 script = ExtResource("1_tj60o")
-speed = 55.0
-max_hp = 350
+speed = 50.0
+max_hp = 600
 reward = 30
 enemy_name = "Tank"
 floating_text_scene = ExtResource("2_wmqtm")

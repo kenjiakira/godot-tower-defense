@@ -46,7 +46,6 @@
 [ext_resource type="PackedScene" path="res://scenes/bullets/BulletAOE.tscn" id="43_vc5cj"]
 [ext_resource type="PackedScene" uid="uid://d0raeixyumr6m" path="res://scenes/bullets/BulletSniper.tscn" id="44_nvyfr"]
 [ext_resource type="PackedScene" path="res://scenes/bullets/BulletSlow.tscn" id="45_ty1g6"]
-[ext_resource type="Script" path="res://scripts/EffectManager.gd" id="47_vc5cj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yc10j"]
 texture = ExtResource("8_yc10j")
@@ -1548,6 +1547,3 @@ bullet_slow_scene = ExtResource("45_ty1g6")
 [node name="UIManager" type="Node" parent="Managers" unique_id=90371085 node_paths=PackedStringArray("ui_root")]
 script = ExtResource("27_vxglm")
 ui_root = NodePath("../../UI")
-
-[node name="EffectManager" type="Node" parent="Managers" unique_id=1999367251]
-script = ExtResource("47_vc5cj")
