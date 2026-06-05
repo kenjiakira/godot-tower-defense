@@ -246,7 +246,15 @@ func shoot():
 		print("Chua gan bullet_scene")
 		return
 	
-	var bullet = bullet_scene.instantiate()
+	var build_manager = get_tree().current_scene.get_node("Managers/BuildManager")
+	var bullet_scene_to_use = build_manager.get_bullet_scene_for_type(tower_type)
+	if bullet_scene_to_use == null:
+		bullet_scene_to_use = bullet_scene
+	if bullet_scene_to_use == null:
+		print("Chua gan bullet_scene")
+		return
+	
+	var bullet = bullet_scene_to_use.instantiate()
 	get_tree().current_scene.get_node("Bullets").add_child(bullet)
 	bullet.global_position = global_position
 	bullet.setup(target, damage, tower_type, level)

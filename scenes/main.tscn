@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_qkpxi"]
 [ext_resource type="PackedScene" uid="uid://d11xu7qp7cwll" path="res://scenes/TowerSniper.tscn" id="5_sniper"]
-[ext_resource type="PackedScene" path="res://scenes/TowerSlow.tscn" id="6_slow"]
+[ext_resource type="PackedScene" uid="uid://l8kj5oftxqs4" path="res://scenes/TowerSlow.tscn" id="6_slow"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="7_trceg"]
 [ext_resource type="Texture2D" uid="uid://qpytxe76aa74" path="res://assets/ui/kenney/panel.png" id="8_a8y0u"]
 [ext_resource type="AudioStream" uid="uid://b7ky4nwgfcwwe" path="res://assets/sounds/shoot.mp3" id="8_tipki"]
@@ -41,7 +41,12 @@
 [ext_resource type="Script" uid="uid://uxowlnv0dvyo" path="res://scripts/UIManager.gd" id="27_vxglm"]
 [ext_resource type="AudioStream" uid="uid://i54i60nn8y3x" path="res://assets/sounds/BGM.mp3" id="33_fuf3a"]
 [ext_resource type="AudioStream" uid="uid://22abwk7wr85l" path="res://assets/sounds/enemy/usagi.mp3" id="34_pibwh"]
-[ext_resource type="PackedScene" uid="uid://b8x7kq2nap3n4" path="res://scenes/ui/TowerSelectPanel.tscn" id="35_panel"]
+[ext_resource type="PackedScene" uid="uid://dx8q8mt4eibmw" path="res://scenes/ui/TowerSelectPanel.tscn" id="35_panel"]
+[ext_resource type="PackedScene" uid="uid://xj4dh4nb4f1w" path="res://scenes/bullets/BulletBasic.tscn" id="42_txyw0"]
+[ext_resource type="PackedScene" path="res://scenes/bullets/BulletAOE.tscn" id="43_vc5cj"]
+[ext_resource type="PackedScene" uid="uid://d0raeixyumr6m" path="res://scenes/bullets/BulletSniper.tscn" id="44_nvyfr"]
+[ext_resource type="PackedScene" path="res://scenes/bullets/BulletSlow.tscn" id="45_ty1g6"]
+[ext_resource type="Script" path="res://scripts/EffectManager.gd" id="47_vc5cj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yc10j"]
 texture = ExtResource("8_yc10j")
@@ -1284,6 +1289,7 @@ expand_mode = 3
 stretch_mode = 6
 
 [node name="TowerPanel" type="Panel" parent="UI" unique_id=46876510]
+visible = false
 offset_left = 991.0
 offset_top = 210.0
 offset_right = 1260.0
@@ -1380,6 +1386,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_fuf3a")
 text = "SELL 40"
 
 [node name="TowerSelectPanel" parent="UI" unique_id=638779130 instance=ExtResource("35_panel")]
+visible = false
 
 [node name="GameOverPanel" type="Panel" parent="UI" unique_id=1364974723]
 visible = false
@@ -1533,7 +1540,14 @@ tower_basic_scene = ExtResource("3_sugp2")
 tower_aoe_scene = ExtResource("4_aoe")
 tower_sniper_scene = ExtResource("5_sniper")
 tower_slow_scene = ExtResource("6_slow")
+bullet_basic_scene = ExtResource("42_txyw0")
+bullet_aoe_scene = ExtResource("43_vc5cj")
+bullet_sniper_scene = ExtResource("44_nvyfr")
+bullet_slow_scene = ExtResource("45_ty1g6")
 
 [node name="UIManager" type="Node" parent="Managers" unique_id=90371085 node_paths=PackedStringArray("ui_root")]
 script = ExtResource("27_vxglm")
 ui_root = NodePath("../../UI")
+
+[node name="EffectManager" type="Node" parent="Managers" unique_id=1999367251]
+script = ExtResource("47_vc5cj")

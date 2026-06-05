@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bullet_aoe"]
+
+[ext_resource type="Script" uid="uid://08m55edd6xei" path="res://scripts/Bullet.gd" id="1_bullet"]
+[ext_resource type="Texture2D" uid="uid://bgiuv4djegmjq" path="res://assets/characters/bullet.png" id="2_bullet"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aoe"]
+radius = 12.0
+
+[node name="BulletAOE" type="Area2D" groups=["bullet"]]
+script = ExtResource("1_bullet")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.06, 0.06)
+shape = SubResource("CircleShape2D_aoe")
+
+[node name="Body" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_bullet")
+modulate = Color(1.0, 0.6, 0.0, 1.0)

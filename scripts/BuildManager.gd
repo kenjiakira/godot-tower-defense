@@ -8,6 +8,11 @@ extends Node
 @export var tower_sniper_scene: PackedScene
 @export var tower_slow_scene: PackedScene
 
+@export var bullet_basic_scene: PackedScene
+@export var bullet_aoe_scene: PackedScene
+@export var bullet_sniper_scene: PackedScene
+@export var bullet_slow_scene: PackedScene
+
 const TOWER_COSTS = {
 	0: 50,   # BASIC
 	1: 70,   # AOE
@@ -68,6 +73,15 @@ func get_scene_for_type(tower_type: int) -> PackedScene:
 		2: return tower_sniper_scene
 		3: return tower_slow_scene
 	return tower_basic_scene
+
+
+func get_bullet_scene_for_type(tower_type: int) -> PackedScene:
+	match tower_type:
+		0: return bullet_basic_scene
+		1: return bullet_aoe_scene
+		2: return bullet_sniper_scene
+		3: return bullet_slow_scene
+	return bullet_basic_scene
 
 
 func get_cost_for_type(tower_type: int) -> int:
