@@ -31,6 +31,13 @@ var enemies_alive := 0
 
 var pending_build_spot = null
 
+const SOUND_ICON_ON = preload("res://assets/ui/right_topbar_icon/volume.png")
+const SOUND_ICON_OFF = preload("res://assets/ui/right_topbar_icon/volume_disable.png")
+const PAUSE_ICON_ON = preload("res://assets/ui/right_topbar_icon/pause.png")
+const PAUSE_ICON_OFF = preload("res://assets/ui/right_topbar_icon/pause_disable.png")
+const SPEED_ICON_1X = preload("res://assets/ui/right_topbar_icon/speed_1x.png")
+const SPEED_ICON_2X = preload("res://assets/ui/right_topbar_icon/speed_2x.png")
+
 const TOWER_COSTS = {
 	0: 50,   # BASIC
 	1: 70,   # AOE
@@ -61,7 +68,7 @@ func _ready():
 	
 	$SpawnTimer.timeout.connect(spawn_enemy)
 
-	$UI/TopBar/RightButtons/StartWaveButton.pressed.connect(_on_start_wave_button_pressed)
+	$UI/StartWaveButton.pressed.connect(_on_start_wave_button_pressed)
 	$UI/TowerPanel/UpgradeButton.pressed.connect(_on_upgrade_button_pressed)
 	$UI/TopBar/RightButtons/SoundButton.pressed.connect(_on_sound_button_pressed)
 	$UI/TopBar/RightButtons/SpeedButton.pressed.connect(_on_speed_button_pressed)
@@ -110,7 +117,7 @@ func _on_start_wave_button_pressed():
 
 
 func update_wave_button_state():
-	var start_wave_button = $UI/TopBar/RightButtons/StartWaveButton
+	var start_wave_button = $UI/StartWaveButton
 	start_wave_button.disabled = wave_in_progress or ui_manager.is_game_over_visible()
 
 	if wave_in_progress:
@@ -157,11 +164,8 @@ func _on_sound_button_pressed():
 	AudioServer.set_bus_mute(bus_index, not sound_enabled)
 
 	var icon = $UI/TopBar/RightButtons/SoundButton/Icon
-
-	if sound_enabled:
-		icon.modulate = Color.WHITE
-	else:
-		icon.modulate = Color(0.5, 0.5, 0.5, 1.0)
+	icon.texture = SOUND_ICON_ON if sound_enabled else SOUND_ICON_OFF
+	icon.modulate = Color.WHITE
 
 
 func _on_speed_button_pressed():
@@ -176,11 +180,8 @@ func _on_speed_button_pressed():
 	Engine.time_scale = game_speed
 
 	var icon = $UI/TopBar/RightButtons/SpeedButton/Icon
-
-	if game_speed == 2.0:
-		icon.modulate = Color(1.2, 1.2, 1.2, 1.0)
-	else:
-		icon.modulate = Color.WHITE
+	icon.texture = SPEED_ICON_2X if game_speed == 2.0 else SPEED_ICON_1X
+	icon.modulate = Color.WHITE
 
 
 func _on_pause_button_pressed():
@@ -188,11 +189,8 @@ func _on_pause_button_pressed():
 	get_tree().paused = is_paused
 
 	var icon = $UI/TopBar/RightButtons/PauseButton/Icon
-
-	if is_paused:
-		icon.modulate = Color(0.6, 0.6, 0.6, 1.0)
-	else:
-		icon.modulate = Color.WHITE
+	icon.texture = PAUSE_ICON_OFF if is_paused else PAUSE_ICON_ON
+	icon.modulate = Color.WHITE
 
 
 func spawn_enemy():
