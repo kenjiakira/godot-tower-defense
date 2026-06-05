@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://b8x7kq2nap3n4"]
+
+[ext_resource type="Theme" uid="uid://tgh8hs7stqnh" path="res://themes/ui_theme.tres" id="1_theme"]
+[ext_resource type="Texture2D" uid="uid://1i25i2rlwjnk" path="res://assets/ui/tower_select/bg_panel.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://dw4d6hhpf6w0p" path="res://assets/ui/tower_select/button.png" id="3_btn"]
+[ext_resource type="Texture2D" uid="uid://bpplskcu1p3eg" path="res://assets/ui/tower_select/button_hover.png" id="4_btn_hover"]
+[ext_resource type="Texture2D" uid="uid://rigaox5bts5q" path="res://assets/ui/tower_select/button_disable.png" id="5_btn_disable"]
+[ext_resource type="Texture2D" uid="uid://cg3liqdvwp6vx" path="res://assets/ui/tower_select/icon_basic.png" id="6_icon_basic"]
+[ext_resource type="FontFile" uid="uid://dsdjt4ff58psf" path="res://assets/fonts/LilitaOne-Regular.ttf" id="7_d0qt6"]
+[ext_resource type="Texture2D" uid="uid://biurntuvp44q0" path="res://assets/ui/tower_select/icon_aoe.png" id="7_icon_aoe"]
+[ext_resource type="Texture2D" uid="uid://rushxyf8gwr4" path="res://assets/ui/tower_select/icon_sniper.png" id="8_icon_sniper"]
+[ext_resource type="Texture2D" uid="uid://yfstv3b78lnj" path="res://assets/ui/tower_select/icon_slow.png" id="9_icon_slow"]
+[ext_resource type="FontFile" uid="uid://catsr7ya8oo8v" path="res://assets/fonts/Fredoka_Condensed-Bold.ttf" id="10_font"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bg"]
+texture = ExtResource("2_bg")
+texture_margin_left = 30.0
+texture_margin_top = 30.0
+texture_margin_right = 30.0
+texture_margin_bottom = 30.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
+texture = ExtResource("3_btn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed"]
+texture = ExtResource("4_btn_hover")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+texture = ExtResource("4_btn_hover")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_disabled"]
+texture = ExtResource("5_btn_disable")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font = ExtResource("10_font")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_cost"]
+font = ExtResource("10_font")
+font_color = Color(1, 0.8980392, 0.101960786, 1)
+
+[node name="TowerSelectPanel" type="Panel" unique_id=1013373940]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -200.0
+offset_right = 260.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_theme")
+theme_override_styles/panel = SubResource("StyleBoxTexture_bg")
+
+[node name="TowerGrid" type="HBoxContainer" parent="." unique_id=1707033707]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -210.0
+offset_top = 60.0
+offset_right = 210.0
+offset_bottom = 160.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="BasicTowerBtn" type="Button" parent="TowerGrid" unique_id=1254176744]
+custom_minimum_size = Vector2(95, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("10_font")
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="IconContainer" type="CenterContainer" parent="TowerGrid/BasicTowerBtn" unique_id=836547995]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+
+[node name="Icon" type="TextureRect" parent="TowerGrid/BasicTowerBtn/IconContainer" unique_id=1311761766]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("6_icon_basic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="TowerGrid/BasicTowerBtn" unique_id=2064417647]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 41.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("7_d0qt6")
+text = "BASIC"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CostLabel" type="Label" parent="TowerGrid/BasicTowerBtn" unique_id=1592393261]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 82.0
+grow_horizontal = 2
+text = "50$"
+label_settings = SubResource("LabelSettings_cost")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AOETowerBtn" type="Button" parent="TowerGrid" unique_id=1330027133]
+custom_minimum_size = Vector2(95, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="IconContainer" type="CenterContainer" parent="TowerGrid/AOETowerBtn" unique_id=1685804184]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+
+[node name="Icon" type="TextureRect" parent="TowerGrid/AOETowerBtn/IconContainer" unique_id=1816219683]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("7_icon_aoe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="TowerGrid/AOETowerBtn" unique_id=226787077]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 41.0
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "AOE"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CostLabel" type="Label" parent="TowerGrid/AOETowerBtn" unique_id=280524188]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 82.0
+grow_horizontal = 2
+text = "70$"
+label_settings = SubResource("LabelSettings_cost")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SniperTowerBtn" type="Button" parent="TowerGrid" unique_id=102895512]
+custom_minimum_size = Vector2(95, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="IconContainer" type="CenterContainer" parent="TowerGrid/SniperTowerBtn" unique_id=986918836]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+
+[node name="Icon" type="TextureRect" parent="TowerGrid/SniperTowerBtn/IconContainer" unique_id=2011777351]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("8_icon_sniper")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="TowerGrid/SniperTowerBtn" unique_id=710897643]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 41.0
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "SNIPER"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CostLabel" type="Label" parent="TowerGrid/SniperTowerBtn" unique_id=2088366062]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 82.0
+grow_horizontal = 2
+text = "100$"
+label_settings = SubResource("LabelSettings_cost")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlowTowerBtn" type="Button" parent="TowerGrid" unique_id=963024315]
+custom_minimum_size = Vector2(95, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="IconContainer" type="CenterContainer" parent="TowerGrid/SlowTowerBtn" unique_id=1115688230]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+
+[node name="Icon" type="TextureRect" parent="TowerGrid/SlowTowerBtn/IconContainer" unique_id=504935178]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("9_icon_slow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="TowerGrid/SlowTowerBtn" unique_id=1653128294]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 41.0
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "SLOW"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CostLabel" type="Label" parent="TowerGrid/SlowTowerBtn" unique_id=1328985538]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 82.0
+grow_horizontal = 2
+text = "60$"
+label_settings = SubResource("LabelSettings_cost")
+horizontal_alignment = 1
+vertical_alignment = 1

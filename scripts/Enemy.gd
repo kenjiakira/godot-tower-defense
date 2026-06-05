@@ -15,6 +15,11 @@ var has_reached_base := false
 var is_dead := false
 var hpbar = null
 
+var original_speed := 100.0
+var is_slowed := false
+var slow_timer := 0.0
+var slow_amount := 1.0
+
 signal reached_base
 signal died(reward, pos)
 
@@ -25,6 +30,7 @@ func _ready():
 	
 	progress = 0
 	hp = max_hp
+	original_speed = speed
 	
 	if has_node("Body"):
 		$Body.rotation = 0
@@ -35,7 +41,7 @@ func _ready():
 
 func setup_hpbar():
 	if hpbar_scene == null:
-		print(enemy_name, " chưa gán hpbar_scene")
+		print(enemy_name, " chua gan hpbar_scene")
 		return
 	
 	hpbar = hpbar_scene.instantiate()
@@ -48,13 +54,21 @@ func setup_hpbar():
 	if hpbar.has_method("setup"):
 		hpbar.setup(max_hp)
 	else:
-		print("EnemyHPBar chưa có hàm setup()")
+		print("EnemyHPBar chua co ham setup()")
 
 
 func _process(delta):
 	if has_reached_base or is_dead:
 		return
-
+	
+	if is_slowed:
+		slow_timer -= delta
+		if slow_timer <= 0:
+			is_slowed = false
+			speed = original_speed
+			if has_node("Body"):
+				$Body.modulate = enemy_color
+	
 	progress += speed * delta
 	
 	if progress_ratio >= 0.99:
@@ -137,3 +151,28 @@ func hit_flash():
 	
 	if is_instance_valid(self) and not is_dead and has_node("Body"):
 		$Body.modulate = enemy_color
+
+
+func apply_slow(amount: float, duration: float):
+	if is_dead or has_reached_base:
+		return
+	
+	if is_slowed:
+		slow_timer = duration
+		return
+	
+	is_slowed = true
+	slow_timer = duration
+	speed = original_speed * amount
+	slow_amount = amount
+	
+	if has_node("Body"):
+		$Body.modulate = Color.CYAN
+
+
+func get_hp() -> int:
+	return hp
+
+
+func get_speed() -> float:
+	return original_speed

@@ -2,8 +2,25 @@ extends Node
 
 @export var towers_root: Node2D
 @export var build_spots_root: Node2D
-@export var tower_scene: PackedScene
 
+@export var tower_basic_scene: PackedScene
+@export var tower_aoe_scene: PackedScene
+@export var tower_sniper_scene: PackedScene
+@export var tower_slow_scene: PackedScene
+
+const TOWER_COSTS = {
+	0: 50,   # BASIC
+	1: 70,   # AOE
+	2: 100,  # SNIPER
+	3: 60    # SLOW
+}
+
+const TOWER_SCENES = {
+	0: "tower_basic_scene",
+	1: "tower_aoe_scene",
+	2: "tower_sniper_scene",
+	3: "tower_slow_scene"
+}
 
 func get_tower_at(mouse_pos: Vector2):
 	for tower in towers_root.get_children():
@@ -44,22 +61,36 @@ func can_build_at(mouse_pos: Vector2) -> bool:
 	return true
 
 
-func build_at(mouse_pos: Vector2, cost: int):
+func get_scene_for_type(tower_type: int) -> PackedScene:
+	match tower_type:
+		0: return tower_basic_scene
+		1: return tower_aoe_scene
+		2: return tower_sniper_scene
+		3: return tower_slow_scene
+	return tower_basic_scene
+
+
+func get_cost_for_type(tower_type: int) -> int:
+	return TOWER_COSTS.get(tower_type, 50)
+
+
+func build_at(mouse_pos: Vector2, cost: int, tower_type: int = 0):
 	var spot = get_build_spot_at(mouse_pos)
 
 	if spot == null:
-		print("Không thể đặt tower ở đây")
+		print("Khong the dat tower o day")
 		return null
 
 	if spot.occupied:
-		print("Ô này đã có tower")
+		print("O nay da co tower")
 		return null
 
-	if tower_scene == null:
-		print("Chưa gán tower_scene")
+	var scene = get_scene_for_type(tower_type)
+	if scene == null:
+		print("Chua gan tower_scene cho type: ", tower_type)
 		return null
 
-	var tower = tower_scene.instantiate()
+	var tower = scene.instantiate()
 	towers_root.add_child(tower)
 	tower.global_position = spot.global_position
 

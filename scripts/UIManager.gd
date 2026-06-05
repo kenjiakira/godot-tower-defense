@@ -13,6 +13,7 @@ extends Node
 @onready var title_label = ui_root.get_node("TowerPanel/TitleLabel")
 @onready var level_label = ui_root.get_node("TowerPanel/LevelLabel")
 @onready var name_label = ui_root.get_node("TowerPanel/NameLabel")
+@onready var desc_label = ui_root.get_node("TowerPanel/DescLabel")
 
 @onready var damage_label = ui_root.get_node("TowerPanel/StatsBox/DamageLabel")
 @onready var range_label = ui_root.get_node("TowerPanel/StatsBox/RangeLabel")
@@ -21,9 +22,10 @@ extends Node
 @onready var upgrade_button = ui_root.get_node("TowerPanel/UpgradeButton")
 @onready var sell_button = ui_root.get_node("TowerPanel/SellButton")
 
+
 func setup():
 	if ui_root == null:
-		print("UIManager: ui_root chưa được gán trong Inspector")
+		print("UIManager: ui_root chua duoc gan trong Inspector")
 		return
 
 	var paths = [
@@ -38,10 +40,11 @@ func setup():
 		if ui_root.has_node(path):
 			ui_root.get_node(path).process_mode = Node.PROCESS_MODE_ALWAYS
 		else:
-			print("UIManager thiếu node:", path)
+			print("UIManager thieu node:", path)
 
 	ui_root.get_node("TowerPanel").visible = false
 	ui_root.get_node("GameOverPanel").visible = false
+
 
 func update_top_bar(money: int, hp: int, wave: int):
 	ui_root.get_node("TopBar/LeftStats/MoneyPanel/HBoxContainer/MoneyLabel").text = str(money)
@@ -59,13 +62,18 @@ func show_tower_panel(tower):
 
 	tower_panel.visible = true
 
-	title_label.text = "TOWN INFO"
+	title_label.text = "TOWER INFO"
 	level_label.text = "Lv." + str(data["level"])
-	name_label.text = "Hachiware\nTown"
+	
+	var type_names = ["Basic", "AOE", "Sniper", "Slow"]
+	name_label.text = type_names[data["type"]] + " Tower"
+	
+	if desc_label:
+		desc_label.text = data.get("description", "")
 
-	damage_label.text = "⚔  Damage        " + str(data["damage"])
-	range_label.text = "◎  Range          " + str(data["range"])
-	fire_rate_label.text = "◴  Fire Rate      " + str(data["fire_rate"]) + "s"
+	damage_label.text = "Damage        " + str(data["damage"])
+	range_label.text = "Range          " + str(data["range"])
+	fire_rate_label.text = "Fire Rate      " + snapi(data["fire_rate"]) + "s"
 
 	if data["can_upgrade"]:
 		upgrade_button.text = "UPGRADE  " + str(data["upgrade_cost"])
@@ -75,6 +83,10 @@ func show_tower_panel(tower):
 		upgrade_button.disabled = true
 
 	sell_button.text = "Sell  " + str(data["sell_value"])
+
+
+func snapi(value: float) -> String:
+	return "%.2f" % value
 
 
 func hide_tower_panel():
@@ -108,11 +120,12 @@ func is_game_over_visible() -> bool:
 func is_click_on_ui(pos: Vector2) -> bool:
 	var ui_nodes = [
 		ui_root.get_node("TopBar"),
-		ui_root.get_node("TowerPanel")
+		ui_root.get_node("TowerPanel"),
+		ui_root.get_node("TowerSelectPanel")
 	]
 
 	for node in ui_nodes:
-		if node.visible:
+		if node != null and node.visible:
 			var rect = Rect2(node.global_position, node.size)
 			if rect.has_point(pos):
 				return true

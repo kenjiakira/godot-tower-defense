@@ -5,8 +5,6 @@ extends Node2D
 @export var tank_enemy_scene: PackedScene
 @export var boss_enemy_scene: PackedScene
 
-@export var tower_scene: PackedScene
-@export var tower_cost := 50
 @export var floating_text_scene: PackedScene
 
 @onready var town_hall = $TownHall
@@ -30,6 +28,22 @@ var enemies_to_spawn := 10
 var enemies_spawned := 0
 var enemies_alive := 0
 
+var pending_build_spot = null
+
+const TOWER_COSTS = {
+	0: 50,   # BASIC
+	1: 70,   # AOE
+	2: 100,  # SNIPER
+	3: 60    # SLOW
+}
+
+const TOWER_NAMES = {
+	0: "Basic",
+	1: "AOE",
+	2: "Sniper",
+	3: "Slow"
+}
+
 
 func _ready():
 	Engine.time_scale = 1.0
@@ -41,7 +55,8 @@ func _ready():
 	ui_manager.setup()
 	update_ui()
 	setup_hp_bar_style()
-
+	setup_tower_buttons()
+	
 	$SpawnTimer.timeout.connect(spawn_enemy)
 	$SpawnTimer.start()
 
@@ -51,12 +66,66 @@ func _ready():
 	$UI/TopBar/RightButtons/PauseButton.pressed.connect(_on_pause_button_pressed)
 	$UI/GameOverPanel/PlayAgainButton.pressed.connect(_on_play_again_pressed)
 	$UI/TowerPanel/SellButton.pressed.connect(_on_sell_button_pressed)
+	
+	$UI/TowerSelectPanel.visible = false
 
 	if town_hall:
 		town_hall.setup(base_hp)
 		town_hall.destroyed.connect(game_over)
-
+	
 	print("Main scene ready")
+
+
+func setup_tower_buttons():
+	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn.pressed.connect(func(): on_tower_selected(0))
+	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn.pressed.connect(func(): on_tower_selected(1))
+	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn.pressed.connect(func(): on_tower_selected(2))
+	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn.pressed.connect(func(): on_tower_selected(3))
+	
+	update_tower_button_costs()
+
+
+func update_tower_button_costs():
+	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn/CostLabel.text = str(TOWER_COSTS[0]) + "$"
+	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn/CostLabel.text = str(TOWER_COSTS[1]) + "$"
+	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn/CostLabel.text = str(TOWER_COSTS[2]) + "$"
+	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn/CostLabel.text = str(TOWER_COSTS[3]) + "$"
+	
+	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn.disabled = money < TOWER_COSTS[0]
+	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn.disabled = money < TOWER_COSTS[1]
+	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn.disabled = money < TOWER_COSTS[2]
+	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn.disabled = money < TOWER_COSTS[3]
+
+
+func on_tower_selected(tower_type: int):
+	if pending_build_spot == null:
+		return
+	
+	var cost = TOWER_COSTS[tower_type]
+	
+	if money < cost:
+		show_warning("Khong du tien")
+		cancel_build_spot()
+		return
+	
+	var tower = build_manager.build_at(pending_build_spot.global_position, cost, tower_type)
+
+	if tower == null:
+		cancel_build_spot()
+		return
+
+	money -= cost
+	update_ui()
+	
+	print("Da dat " + TOWER_NAMES[tower_type] + " tower, con tien:", money)
+
+	cancel_build_spot()
+	select_tower(tower)
+
+
+func cancel_build_spot():
+	pending_build_spot = null
+	$UI/TowerSelectPanel.visible = false
 
 
 func _on_sound_button_pressed():
@@ -108,7 +177,7 @@ func spawn_enemy():
 	var enemy_scene = get_enemy_scene_for_wave()
 
 	if enemy_scene == null:
-		print("Chưa gán enemy scene")
+		print("Chua gan enemy scene")
 		return
 
 	if enemies_spawned >= enemies_to_spawn:
@@ -125,6 +194,7 @@ func spawn_enemy():
 
 	enemy.reached_base.connect(_on_enemy_reached_base)
 	enemy.died.connect(_on_enemy_died)
+
 
 func setup_hp_bar_style():
 	if not has_node("HPBar"):
@@ -190,12 +260,13 @@ func _on_enemy_died(reward, pos):
 	audio_manager.play_sfx("EnemyDieSound")
 
 	update_ui()
+	update_tower_button_costs()
 	check_wave_end()
 
 
 func spawn_coin_text(world_pos: Vector2, amount: int):
 	if floating_text_scene == null:
-		print("Chưa gán FloatingText scene")
+		print("Chua gan FloatingText scene")
 		return
 
 	var text = floating_text_scene.instantiate()
@@ -264,18 +335,33 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index != MOUSE_BUTTON_LEFT:
 			return
-
+		
+		var mouse_pos = get_global_mouse_position()
+		
 		if ui_manager.is_click_on_ui(event.position):
 			return
-
-		var mouse_pos = get_global_mouse_position()
-
+		
 		var clicked_tower = build_manager.get_tower_at(mouse_pos)
 		if clicked_tower != null:
+			cancel_build_spot()
 			select_tower(clicked_tower)
 			return
-
-		try_place_tower(mouse_pos)
+		
+		var clicked_spot = build_manager.get_build_spot_at(mouse_pos)
+		
+		if pending_build_spot != null:
+			if clicked_spot == pending_build_spot:
+				return
+			cancel_build_spot()
+			return
+		
+		if clicked_spot != null and not clicked_spot.occupied:
+			pending_build_spot = clicked_spot
+			$UI/TowerSelectPanel.visible = true
+			update_tower_button_costs()
+			return
+		
+		deselect_tower()
 
 
 func show_warning(text: String):
@@ -299,33 +385,6 @@ func show_warning(text: String):
 	)
 
 
-func try_place_tower(mouse_pos):
-	var clicked_spot = build_manager.get_build_spot_at(mouse_pos)
-
-	if clicked_spot == null:
-		deselect_tower()
-		return
-
-	if clicked_spot.occupied:
-		show_warning("Ô này đã có tower")
-		return
-
-	if money < tower_cost:
-		show_warning("Không đủ tiền")
-		return
-
-	var tower = build_manager.build_at(mouse_pos, tower_cost)
-
-	if tower == null:
-		return
-
-	money -= tower_cost
-	update_ui()
-
-	print("Đã đặt tower, còn tiền:", money)
-
-	select_tower(tower)
-
 func _on_sell_button_pressed():
 	if selected_tower == null or not is_instance_valid(selected_tower):
 		return
@@ -334,6 +393,7 @@ func _on_sell_button_pressed():
 
 	money += sell_value
 	update_ui()
+	update_tower_button_costs()
 
 	selected_tower.set_selected(false)
 
@@ -344,8 +404,8 @@ func _on_sell_button_pressed():
 
 	ui_manager.hide_tower_panel()
 
-	show_warning("Đã bán tower +" + str(sell_value))
-	
+	show_warning("Da ban tower +" + str(sell_value))
+
 
 func select_tower(tower):
 	if selected_tower != null and is_instance_valid(selected_tower):
@@ -376,23 +436,26 @@ func update_tower_panel():
 		ui_manager.show_tower_panel(selected_tower)
 	update_ui()
 	
+
 func _on_upgrade_button_pressed():
 	if selected_tower == null:
 		return
 
 	if not selected_tower.can_upgrade():
-		show_warning("Tower đã max level")
+		show_warning("Tower da max level")
 		update_tower_panel()
 		return
 
 	var cost = selected_tower.get_upgrade_cost()
 
 	if money < cost:
-		show_warning("Không đủ tiền để upgrade")
+		show_warning("Khong du tien de upgrade")
 		return
 
 	money -= cost
 	selected_tower.upgrade()
+	update_ui()
+	update_tower_button_costs()
 
 	audio_manager.play_sfx("UpgradeSound")
 

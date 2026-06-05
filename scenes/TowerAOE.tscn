@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bsojpaxrcab5u"]
+
+[ext_resource type="Script" uid="uid://cjp0q5ojtrvjx" path="res://scripts/Tower.gd" id="1_2x682"]
+[ext_resource type="PackedScene" uid="uid://bakx4evbmavbu" path="res://scenes/bullet.tscn" id="2_ay4al"]
+[ext_resource type="Texture2D" uid="uid://b0vxr7usbbi5h" path="res://assets/characters/SweetBabyHachiware2.webp" id="3_ktxwe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7j8ug"]
+radius = 120.0
+
+[node name="TowerAOE" type="Area2D" unique_id=761666691 groups=["tower"]]
+script = ExtResource("1_2x682")
+bullet_scene = ExtResource("2_ay4al")
+tower_type = 1
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=1192662606]
+wait_time = 1.2
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=624985402]
+shape = SubResource("CircleShape2D_7j8ug")
+
+[node name="RangePreview" type="Line2D" parent="." unique_id=21581270]
+visible = false
+z_index = 10
+width = 3.0
+default_color = Color(1, 0.5, 0, 0.61960787)
+antialiased = true
+
+[node name="Body" type="Sprite2D" parent="." unique_id=321099879]
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("3_ktxwe")
+region_rect = Rect2(0, 0, 250, 300)

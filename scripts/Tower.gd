@@ -1,6 +1,14 @@
 extends Area2D
 
+enum TowerType {
+	BASIC = 0,
+	AOE = 1,
+	SNIPER = 2,
+	SLOW = 3
+}
+
 @export var bullet_scene: PackedScene
+@export var tower_type: TowerType = TowerType.BASIC
 
 var level := 1
 var max_level := 3
@@ -23,6 +31,10 @@ var dash_ratio := 0.55
 var range_line_width := 3.0
 var range_color := Color(0.65, 0.943, 1.0, 0.85)
 
+var tower_name := "Basic"
+var tower_description := "Tower canh trai"
+var fire_color := Color.WHITE
+
 
 func _ready():
 	apply_level_stats()
@@ -34,7 +46,6 @@ func _ready():
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
 	
-	# Nếu vẫn còn node RangePreview cũ thì ẩn nó đi
 	if has_node("RangePreview"):
 		$RangePreview.visible = false
 
@@ -87,24 +98,54 @@ func setup_cost(cost: int):
 
 
 func apply_level_stats():
-	if level == 1:
-		damage = 25
-		fire_rate = 0.6
-		upgrade_cost = 80
-		set_body_color(Color.WHITE)
-		set_range(150)
-	elif level == 2:
-		damage = 45
-		fire_rate = 0.45
-		upgrade_cost = 140
-		set_body_color(Color(1.1, 1.1, 1.3))
-		set_range(180)
-	elif level == 3:
-		damage = 75
-		fire_rate = 0.3
-		upgrade_cost = 0
-		set_body_color(Color(1.25, 1.15, 1.45))
-		set_range(220)
+	match tower_type:
+		TowerType.BASIC:
+			tower_name = "Basic"
+			tower_description = "Tower canh trai"
+			fire_color = Color.WHITE
+			set_range(150) if level == 1 else 0
+			damage = [25, 45, 75][level - 1]
+			fire_rate = [0.6, 0.45, 0.3][level - 1]
+			upgrade_cost = [80, 140, 0][level - 1]
+			range_color = Color(0.65, 0.943, 1.0, 0.85)
+			
+		TowerType.AOE:
+			tower_name = "AOE"
+			tower_description = "Danh nhieu muc tieu"
+			fire_color = Color.ORANGE
+			set_range(120) if level == 1 else 0
+			damage = [15, 25, 40][level - 1]
+			fire_rate = [1.2, 1.0, 0.8][level - 1]
+			upgrade_cost = [100, 180, 0][level - 1]
+			range_color = Color(1.0, 0.5, 0.0, 0.85)
+			
+		TowerType.SNIPER:
+			tower_name = "Sniper"
+			tower_description = "Damage cao, tan cong cham"
+			fire_color = Color.BLUE
+			set_range(300) if level == 1 else 0
+			damage = [75, 120, 180][level - 1]
+			fire_rate = [2.0, 1.6, 1.2][level - 1]
+			upgrade_cost = [150, 250, 0][level - 1]
+			range_color = Color(0.2, 0.4, 1.0, 0.85)
+			
+		TowerType.SLOW:
+			tower_name = "Slow"
+			tower_description = "Lam cham ke dich"
+			fire_color = Color.CYAN
+			set_range(140) if level == 1 else 0
+			damage = [10, 18, 30][level - 1]
+			fire_rate = [0.5, 0.4, 0.3][level - 1]
+			upgrade_cost = [90, 160, 0][level - 1]
+			range_color = Color(0.0, 1.0, 1.0, 0.85)
+	
+	set_body_color(fire_color * (1.0 + level * 0.15))
+	
+	if level > 1:
+		set_range([150, 180, 220][level - 1]) if tower_type == TowerType.BASIC else 0
+		set_range([120, 140, 160][level - 1]) if tower_type == TowerType.AOE else 0
+		set_range([300, 340, 380][level - 1]) if tower_type == TowerType.SNIPER else 0
+		set_range([140, 160, 180][level - 1]) if tower_type == TowerType.SLOW else 0
 	
 	if has_node("ShootTimer"):
 		$ShootTimer.wait_time = fire_rate
@@ -128,6 +169,8 @@ func get_sell_value():
 
 func get_town_data():
 	return {
+		"type": tower_type,
+		"type_name": tower_name,
 		"level": level,
 		"max_level": max_level,
 		"damage": damage,
@@ -135,7 +178,8 @@ func get_town_data():
 		"fire_rate": fire_rate,
 		"upgrade_cost": upgrade_cost,
 		"sell_value": get_sell_value(),
-		"can_upgrade": can_upgrade()
+		"can_upgrade": can_upgrade(),
+		"description": tower_description
 	}
 
 
@@ -192,14 +236,47 @@ func shoot():
 	
 	var target = enemies[0]
 	
+	if tower_type == TowerType.SNIPER and enemies.size() > 1:
+		target = get_strongest_enemy()
+	
+	if tower_type == TowerType.SLOW and enemies.size() > 1:
+		target = get_fastest_enemy()
+	
 	if bullet_scene == null:
-		print("Chưa gán bullet_scene")
+		print("Chua gan bullet_scene")
 		return
 	
 	var bullet = bullet_scene.instantiate()
 	get_tree().current_scene.get_node("Bullets").add_child(bullet)
 	bullet.global_position = global_position
-	bullet.setup(target, damage, 0)
+	bullet.setup(target, damage, tower_type, level)
 	
 	var audio_manager = get_tree().current_scene.get_node("Managers/AudioManager")
 	audio_manager.play_sfx("ShootSound")
+
+
+func get_strongest_enemy() -> Node:
+	var strongest = enemies[0]
+	var max_hp = 0
+	
+	for enemy in enemies:
+		if enemy.has_method("get_hp"):
+			var hp = enemy.get_hp()
+			if hp > max_hp:
+				max_hp = hp
+				strongest = enemy
+	
+	return strongest
+
+
+func get_fastest_enemy() -> Node:
+	var fastest = enemies[0]
+	var max_speed = fastest.speed if fastest.has_method("get") else 100.0
+	
+	for enemy in enemies:
+		var enemy_speed = enemy.speed if enemy.has_method("get") else 100.0
+		if enemy_speed > max_speed:
+			max_speed = enemy_speed
+			fastest = enemy
+	
+	return fastest
