@@ -32,7 +32,7 @@ var range_line_width := 3.0
 var range_color := Color(0.65, 0.943, 1.0, 0.85)
 
 var tower_name := "Basic"
-var tower_description := "Tower canh trai"
+var tower_description := "Basic tower"
 var fire_color := Color.WHITE
 
 
@@ -101,7 +101,7 @@ func apply_level_stats():
 	match tower_type:
 		TowerType.BASIC:
 			tower_name = "Basic"
-			tower_description = "Tower canh trai"
+			tower_description = "Basic tower"
 			fire_color = Color.WHITE
 			set_range(150) if level == 1 else 0
 			damage = [40, 65, 100][level - 1]
@@ -111,7 +111,7 @@ func apply_level_stats():
 			
 		TowerType.AOE:
 			tower_name = "AOE"
-			tower_description = "Danh nhieu muc tieu"
+			tower_description = "Hits multiple targets"
 			fire_color = Color.ORANGE
 			set_range(140) if level == 1 else 0
 			damage = [35, 55, 80][level - 1]
@@ -121,7 +121,7 @@ func apply_level_stats():
 			
 		TowerType.SNIPER:
 			tower_name = "Sniper"
-			tower_description = "Damage cao, tan cong cham"
+			tower_description = "High damage, slow attack speed"
 			fire_color = Color.BLUE
 			set_range(300) if level == 1 else 0
 			damage = [100, 150, 220][level - 1]
@@ -131,7 +131,7 @@ func apply_level_stats():
 			
 		TowerType.SLOW:
 			tower_name = "Slow"
-			tower_description = "Lam cham ke dich"
+			tower_description = "Slows enemies"
 			fire_color = Color.CYAN
 			set_range(140) if level == 1 else 0
 			damage = [15, 25, 40][level - 1]
@@ -243,7 +243,7 @@ func shoot():
 		target = get_fastest_enemy()
 	
 	if bullet_scene == null:
-		print("Chua gan bullet_scene")
+		print("Bullet scene is not assigned")
 		return
 	
 	var build_manager = get_tree().current_scene.get_node("Managers/BuildManager")
@@ -251,7 +251,7 @@ func shoot():
 	if bullet_scene_to_use == null:
 		bullet_scene_to_use = bullet_scene
 	if bullet_scene_to_use == null:
-		print("Chua gan bullet_scene")
+		print("Bullet scene is not assigned")
 		return
 	
 	var bullet = bullet_scene_to_use.instantiate()

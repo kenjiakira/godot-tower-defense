@@ -54,7 +54,7 @@ func setup_hpbar():
 	if hpbar.has_method("setup"):
 		hpbar.setup(max_hp)
 	else:
-		print("EnemyHPBar chua co ham setup()")
+		print("EnemyHPBar does not have a setup() method")
 
 
 func _process(delta):

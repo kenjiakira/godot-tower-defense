@@ -14,6 +14,7 @@ extends Node2D
 @onready var bgm_player = $SFX/BGMSound
 
 var warning_tween: Tween
+var wave_in_progress := false
 var selected_tower = null
 
 var money := 100
@@ -56,10 +57,11 @@ func _ready():
 	update_ui()
 	setup_hp_bar_style()
 	setup_tower_buttons()
+	update_wave_button_state()
 	
 	$SpawnTimer.timeout.connect(spawn_enemy)
-	$SpawnTimer.start()
 
+	$UI/TopBar/RightButtons/StartWaveButton.pressed.connect(_on_start_wave_button_pressed)
 	$UI/TowerPanel/UpgradeButton.pressed.connect(_on_upgrade_button_pressed)
 	$UI/TopBar/RightButtons/SoundButton.pressed.connect(_on_sound_button_pressed)
 	$UI/TopBar/RightButtons/SpeedButton.pressed.connect(_on_speed_button_pressed)
@@ -97,6 +99,26 @@ func update_tower_button_costs():
 	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn.disabled = money < TOWER_COSTS[3]
 
 
+func _on_start_wave_button_pressed():
+	if wave_in_progress or ui_manager.is_game_over_visible():
+		return
+
+	wave_in_progress = true
+	$SpawnTimer.start()
+	show_warning("Wave " + str(wave) + " started")
+	update_wave_button_state()
+
+
+func update_wave_button_state():
+	var start_wave_button = $UI/TopBar/RightButtons/StartWaveButton
+	start_wave_button.disabled = wave_in_progress or ui_manager.is_game_over_visible()
+
+	if wave_in_progress:
+		start_wave_button.text = "Wave In Progress"
+	else:
+		start_wave_button.text = "Start Wave " + str(wave)
+
+
 func on_tower_selected(tower_type: int):
 	if pending_build_spot == null:
 		return
@@ -104,7 +126,7 @@ func on_tower_selected(tower_type: int):
 	var cost = TOWER_COSTS[tower_type]
 	
 	if money < cost:
-		show_warning("Khong du tien")
+		show_warning("Cannot afford this tower")
 		cancel_build_spot()
 		return
 	
@@ -117,7 +139,7 @@ func on_tower_selected(tower_type: int):
 	money -= cost
 	update_ui()
 	
-	print("Da dat " + TOWER_NAMES[tower_type] + " tower, con tien:", money)
+	print("Built " + TOWER_NAMES[tower_type] + " tower, remaining money:", money)
 
 	cancel_build_spot()
 	select_tower(tower)
@@ -177,10 +199,11 @@ func spawn_enemy():
 	var enemy_scene = get_enemy_scene_for_wave()
 
 	if enemy_scene == null:
-		print("Chua gan enemy scene")
+		print("Enemy scene is not assigned")
 		return
 
 	if enemies_spawned >= enemies_to_spawn:
+		$SpawnTimer.stop()
 		return
 
 	enemies_spawned += 1
@@ -266,7 +289,7 @@ func _on_enemy_died(reward, pos):
 
 func spawn_coin_text(world_pos: Vector2, amount: int):
 	if floating_text_scene == null:
-		print("Chua gan FloatingText scene")
+		print("FloatingText scene is not assigned")
 		return
 
 	var text = floating_text_scene.instantiate()
@@ -299,6 +322,8 @@ func _on_enemy_reached_base():
 func game_over():
 	print("GAME OVER")
 
+	wave_in_progress = false
+	update_wave_button_state()
 	$SpawnTimer.stop()
 		
 	if bgm_player.playing:
@@ -316,6 +341,7 @@ func _on_play_again_pressed():
 
 func check_wave_end():
 	if enemies_spawned >= enemies_to_spawn and enemies_alive <= 0:
+		wave_in_progress = false
 		start_next_wave()
 
 
@@ -325,6 +351,8 @@ func start_next_wave():
 	enemies_to_spawn += 5
 
 	update_ui()
+	update_wave_button_state()
+	show_warning("Wave " + str(wave) + " ready")
 	print("Wave", wave)
 
 
@@ -404,7 +432,7 @@ func _on_sell_button_pressed():
 
 	ui_manager.hide_tower_panel()
 
-	show_warning("Da ban tower +" + str(sell_value))
+	show_warning("Sold tower +" + str(sell_value))
 
 
 func select_tower(tower):
@@ -442,14 +470,14 @@ func _on_upgrade_button_pressed():
 		return
 
 	if not selected_tower.can_upgrade():
-		show_warning("Tower da max level")
+		show_warning("Tower is already max level")
 		update_tower_panel()
 		return
 
 	var cost = selected_tower.get_upgrade_cost()
 
 	if money < cost:
-		show_warning("Khong du tien de upgrade")
+		show_warning("Not enough money to upgrade")
 		return
 
 	money -= cost

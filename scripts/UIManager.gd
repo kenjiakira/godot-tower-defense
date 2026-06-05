@@ -25,7 +25,7 @@ extends Node
 
 func setup():
 	if ui_root == null:
-		print("UIManager: ui_root chua duoc gan trong Inspector")
+		print("UIManager: `ui_root` is not assigned in the Inspector")
 		return
 
 	var paths = [
@@ -40,7 +40,7 @@ func setup():
 		if ui_root.has_node(path):
 			ui_root.get_node(path).process_mode = Node.PROCESS_MODE_ALWAYS
 		else:
-			print("UIManager thieu node:", path)
+			print("UIManager missing node:", path)
 
 	ui_root.get_node("TowerPanel").visible = false
 	ui_root.get_node("GameOverPanel").visible = false

@@ -92,16 +92,16 @@ func build_at(mouse_pos: Vector2, cost: int, tower_type: int = 0):
 	var spot = get_build_spot_at(mouse_pos)
 
 	if spot == null:
-		print("Khong the dat tower o day")
+		print("Cannot place a tower here")
 		return null
 
 	if spot.occupied:
-		print("O nay da co tower")
+		print("This spot already has a tower")
 		return null
 
 	var scene = get_scene_for_type(tower_type)
 	if scene == null:
-		print("Chua gan tower_scene cho type: ", tower_type)
+		print("Tower scene is not assigned for type: ", tower_type)
 		return null
 
 	var tower = scene.instantiate()

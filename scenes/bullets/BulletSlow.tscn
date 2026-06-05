@@ -1,19 +1,18 @@
-[gd_scene format=3 uid="uid://bullet_slow"]
+[gd_scene format=3 uid="uid://dm5ovj0cdh048"]
 
 [ext_resource type="Script" uid="uid://08m55edd6xei" path="res://scripts/Bullet.gd" id="1_bullet"]
-[ext_resource type="Texture2D" uid="uid://bgiuv4djegmjq" path="res://assets/characters/bullet.png" id="2_bullet"]
+[ext_resource type="Texture2D" uid="uid://ckvxdnl55b5k4" path="res://assets/tower/bullets/slow_bullet.png" id="2_4hegi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_slow"]
-radius = 10.0
 
-[node name="BulletSlow" type="Area2D" groups=["bullet"]]
+[node name="BulletSlow" type="Area2D" unique_id=1166107667 groups=["bullet"]]
 script = ExtResource("1_bullet")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1126309157]
 scale = Vector2(0.05, 0.05)
 shape = SubResource("CircleShape2D_slow")
 
-[node name="Body" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="." unique_id=1739838587]
+modulate = Color(0, 0.8, 1, 1)
 scale = Vector2(0.08, 0.08)
-texture = ExtResource("2_bullet")
-modulate = Color(0.0, 0.8, 1.0, 1.0)
+texture = ExtResource("2_4hegi")

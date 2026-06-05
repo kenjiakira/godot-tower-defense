@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjp0q5ojtrvjx" path="res://scripts/Tower.gd" id="1_2x682"]
 [ext_resource type="PackedScene" uid="uid://bakx4evbmavbu" path="res://scenes/bullet.tscn" id="2_ay4al"]
-[ext_resource type="Texture2D" uid="uid://b0vxr7usbbi5h" path="res://assets/characters/SweetBabyHachiware2.webp" id="3_ktxwe"]
+[ext_resource type="Texture2D" uid="uid://cqpg2vdp2x4e6" path="res://assets/characters/towers/slow/lv1.png" id="3_kglkn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_slow"]
 radius = 140.0
@@ -26,6 +26,6 @@ width = 3.0
 antialiased = true
 
 [node name="Body" type="Sprite2D" parent="." unique_id=321099881]
-scale = Vector2(0.18, 0.18)
-texture = ExtResource("3_ktxwe")
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("3_kglkn")
 region_rect = Rect2(0, 0, 250, 300)
