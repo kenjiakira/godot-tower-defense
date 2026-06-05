@@ -139,7 +139,7 @@ func apply_level_stats():
 			upgrade_cost = [90, 160, 0][level - 1]
 			range_color = Color(0.0, 1.0, 1.0, 0.85)
 	
-	set_body_color(fire_color * (1.0 + level * 0.15))
+	set_body_color(Color.WHITE)
 	
 	if level > 1:
 		set_range([150, 180, 220][level - 1]) if tower_type == TowerType.BASIC else 0

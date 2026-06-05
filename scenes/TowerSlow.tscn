@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://tower_slow_003"]
+[gd_scene format=3 uid="uid://l8kj5oftxqs4"]
 
 [ext_resource type="Script" uid="uid://cjp0q5ojtrvjx" path="res://scripts/Tower.gd" id="1_2x682"]
 [ext_resource type="PackedScene" uid="uid://bakx4evbmavbu" path="res://scenes/bullet.tscn" id="2_ay4al"]
@@ -23,11 +23,9 @@ shape = SubResource("CircleShape2D_slow")
 visible = false
 z_index = 10
 width = 3.0
-default_color = Color(0, 1, 1, 0.61960787)
 antialiased = true
 
 [node name="Body" type="Sprite2D" parent="." unique_id=321099881]
 scale = Vector2(0.18, 0.18)
 texture = ExtResource("3_ktxwe")
 region_rect = Rect2(0, 0, 250, 300)
-modulate = Color(0.2, 1.5, 1.5, 1)

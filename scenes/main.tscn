@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://dybj3c7qc8wi1" path="res://scenes/tower.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://ov22oijrs83d" path="res://scenes/EnemyFast.tscn" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://ctthyb5dl2j42" path="res://scenes/EnemyTank.tscn" id="4_85g3d"]
-[ext_resource type="PackedScene" path="res://scenes/TowerAOE.tscn" id="4_aoe"]
+[ext_resource type="PackedScene" uid="uid://bsojpaxrcab5u" path="res://scenes/TowerAOE.tscn" id="4_aoe"]
 [ext_resource type="PackedScene" uid="uid://bj3ot8exbuqog" path="res://scenes/BuildSpot.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dx0qc4v18vw35" path="res://scenes/EnemyBoss.tscn" id="5_qkpxi"]
-[ext_resource type="PackedScene" path="res://scenes/TowerSniper.tscn" id="5_sniper"]
+[ext_resource type="PackedScene" uid="uid://d11xu7qp7cwll" path="res://scenes/TowerSniper.tscn" id="5_sniper"]
 [ext_resource type="PackedScene" path="res://scenes/TowerSlow.tscn" id="6_slow"]
 [ext_resource type="PackedScene" uid="uid://s3juhgvc781n" path="res://scenes/FloatingText.tscn" id="7_trceg"]
 [ext_resource type="Texture2D" uid="uid://qpytxe76aa74" path="res://assets/ui/kenney/panel.png" id="8_a8y0u"]
@@ -1380,7 +1380,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_fuf3a")
 text = "SELL 40"
 
 [node name="TowerSelectPanel" parent="UI" unique_id=638779130 instance=ExtResource("35_panel")]
-visible = true
 
 [node name="GameOverPanel" type="Panel" parent="UI" unique_id=1364974723]
 visible = false
