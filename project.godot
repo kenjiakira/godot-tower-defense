@@ -25,6 +25,12 @@ GameConfig="*res://scripts/autoload/GameConfig.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 
+[game]
+
+sound_volume=0.8
+music_volume=1.0
+fullscreen=false
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

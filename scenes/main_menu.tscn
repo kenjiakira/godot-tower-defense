@@ -1,39 +1,84 @@
 [gd_scene format=3 uid="uid://dlklusnerorna"]
 
 [ext_resource type="Script" uid="uid://bqedpu4u6qx8w" path="res://scripts/core/MainMenu.gd" id="1_l6cm7"]
-[ext_resource type="Theme" uid="uid://tgh8hs7stqnh" path="res://themes/ui_theme.tres" id="1_rtw2f"]
 [ext_resource type="Texture2D" uid="uid://ca6hcnlmncvxm" path="res://assets/ui/background.png" id="2_ekxnf"]
 [ext_resource type="Texture2D" uid="uid://csea5n03hggo7" path="res://assets/ui/logo.png" id="3_bqqt6"]
-[ext_resource type="Script" uid="uid://biyrghatlno2q" path="res://scripts/ui/components/logo.gd" id="4_wu84c"]
-[ext_resource type="Texture2D" uid="uid://bl8druppccoxt" path="res://assets/ui/button/play_button.png" id="5_8ln24"]
+[ext_resource type="Script" uid="uid://clh301aalvs3e" path="res://scripts/ui/components/logo.gd" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://dyqx63ctt7ylm" path="res://assets/ui/button/right_stats_bg.png" id="6_btn_bg"]
+[ext_resource type="Theme" uid="uid://bvca2qly1f0ii" path="res://themes/lilitaone_font.tres" id="8_lilita"]
+[ext_resource type="Texture2D" uid="uid://cuujgwfqef5fc" path="res://assets/ui/main_menu/icon/sword.png" id="9_7b55j"]
+[ext_resource type="Texture2D" uid="uid://c7var8wkmc2ow" path="res://assets/ui/button/wave_button.png" id="9_btn_normal"]
+[ext_resource type="Texture2D" uid="uid://crcib5mq22xaj" path="res://assets/ui/button/wave_button_hover.png" id="10_btn_hover"]
+[ext_resource type="Texture2D" uid="uid://bhx5mho6jukyu" path="res://assets/ui/main_menu/icon/how_to_play.png" id="11_5pajh"]
+[ext_resource type="Texture2D" uid="uid://2ew5tv6txmja" path="res://assets/ui/button/wave_button_disable.png" id="11_btn_disabled"]
+[ext_resource type="Texture2D" uid="uid://c7rv6cf66gtow" path="res://assets/ui/main_menu/icon/setting.png" id="12_7b55j"]
+[ext_resource type="Texture2D" uid="uid://bwj6wtcie7cvb" path="res://assets/ui/right_topbar_icon/volume.png" id="12_icon_volume"]
+[ext_resource type="Texture2D" uid="uid://bc2b2i3a4o38v" path="res://assets/ui/main_menu/icon/quit.png" id="13_5pajh"]
+[ext_resource type="Texture2D" uid="uid://dao24lanes6w5" path="res://assets/ui/wave_icon.png" id="13_icon_play"]
+[ext_resource type="Texture2D" uid="uid://55usn75fvlr5" path="res://assets/ui/town_panel/sell_button_hover.png" id="16_btn_hover_sell"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rtw2f"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1ajci"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oa1go"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("9_btn_normal")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tbmy8"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("10_btn_hover")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oa1go"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("10_btn_hover")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jk1qb"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_disabled"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("11_btn_disabled")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ln24"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal2"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("9_btn_normal")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lgwnu"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed2"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("16_btn_hover_sell")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5dd4i"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover2"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("16_btn_hover_sell")
 
-[node name="MainMenu" type="Control" unique_id=1339397506]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_disabled2"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("11_btn_disabled")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel_bg"]
+texture = ExtResource("6_btn_bg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_btn"]
+texture = ExtResource("9_btn_normal")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_btn_hover"]
+texture = ExtResource("10_btn_hover")
+
+[node name="MainMenu" type="Control" unique_id=470188754]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_rtw2f")
+theme = ExtResource("8_lilita")
 script = ExtResource("1_l6cm7")
 
-[node name="Background" type="TextureRect" parent="." unique_id=778430908]
+[node name="Background" type="TextureRect" parent="." unique_id=279519353]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,24 +89,24 @@ texture = ExtResource("2_ekxnf")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="CenterBox" type="VBoxContainer" parent="." unique_id=1310764821]
-custom_minimum_size = Vector2(360, 300)
+[node name="CenterBox" type="VBoxContainer" parent="." unique_id=638766600]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -150.0
-offset_right = 180.0
-offset_bottom = 150.0
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Logo" type="TextureRect" parent="CenterBox" unique_id=747222986]
+[node name="Logo" type="TextureRect" parent="CenterBox" unique_id=1242786307]
 custom_minimum_size = Vector2(500, 220)
 layout_mode = 2
 texture = ExtResource("3_bqqt6")
@@ -69,100 +114,153 @@ expand_mode = 1
 stretch_mode = 5
 script = ExtResource("4_wu84c")
 
-[node name="PlayButton" type="Button" parent="CenterBox" unique_id=2387449]
-custom_minimum_size = Vector2(260, 80)
+[node name="MenuPanel" type="PanelContainer" parent="CenterBox" unique_id=2099610996]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1ajci")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterBox/MenuPanel" unique_id=1161301396]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayButton" type="Button" parent="CenterBox/MenuPanel/VBoxContainer" unique_id=933464394]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterBox/MenuPanel/VBoxContainer/PlayButton" unique_id=639418899]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="CenterBox/MenuPanel/VBoxContainer/PlayButton/HBoxContainer" unique_id=586078805]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxEmpty_rtw2f")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_oa1go")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_tbmy8")
-
-[node name="BG" type="TextureRect" parent="CenterBox/PlayButton" unique_id=1397804402]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_8ln24")
+texture = ExtResource("9_7b55j")
 expand_mode = 1
+stretch_mode = 6
 
-[node name="Text" type="Label" parent="CenterBox/PlayButton" unique_id=62334202]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Text" type="Label" parent="CenterBox/MenuPanel/VBoxContainer/PlayButton/HBoxContainer" unique_id=703046157]
+layout_mode = 2
 text = "PLAY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HowToPlayButton" type="Button" parent="CenterBox" unique_id=1529212162]
-custom_minimum_size = Vector2(260, 80)
+[node name="HowToPlayButton" type="Button" parent="CenterBox/MenuPanel/VBoxContainer" unique_id=642197723]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover2")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterBox/MenuPanel/VBoxContainer/HowToPlayButton" unique_id=1616078344]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="CenterBox/MenuPanel/VBoxContainer/HowToPlayButton/HBoxContainer" unique_id=1140961240]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxTexture_oa1go")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_jk1qb")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_8ln24")
-
-[node name="BG" type="TextureRect" parent="CenterBox/HowToPlayButton" unique_id=1756023294]
-self_modulate = Color(0.79607844, 0.8392157, 0, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_8ln24")
+texture = ExtResource("11_5pajh")
 expand_mode = 1
+stretch_mode = 6
 
-[node name="Text" type="Label" parent="CenterBox/HowToPlayButton" unique_id=1681922007]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Text" type="Label" parent="CenterBox/MenuPanel/VBoxContainer/HowToPlayButton/HBoxContainer" unique_id=1610579096]
+layout_mode = 2
 text = "HOW TO PLAY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuitButton" type="Button" parent="CenterBox" unique_id=2013548418]
-custom_minimum_size = Vector2(260, 80)
+[node name="SettingsButton" type="Button" parent="CenterBox/MenuPanel/VBoxContainer" unique_id=44330620]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover2")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterBox/MenuPanel/VBoxContainer/SettingsButton" unique_id=736509359]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="CenterBox/MenuPanel/VBoxContainer/SettingsButton/HBoxContainer" unique_id=877257369]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxTexture_lgwnu")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_5dd4i")
-text = "QUIT"
-
-[node name="BG" type="TextureRect" parent="CenterBox/QuitButton" unique_id=1745308400]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_8ln24")
+texture = ExtResource("12_7b55j")
 expand_mode = 1
+stretch_mode = 6
 
-[node name="Text" type="Label" parent="CenterBox/QuitButton" unique_id=705465015]
+[node name="Text" type="Label" parent="CenterBox/MenuPanel/VBoxContainer/SettingsButton/HBoxContainer" unique_id=553333029]
+layout_mode = 2
+text = "SETTINGS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="Button" parent="CenterBox/MenuPanel/VBoxContainer" unique_id=2045461676]
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterBox/MenuPanel/VBoxContainer/QuitButton" unique_id=561187383]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="CenterBox/MenuPanel/VBoxContainer/QuitButton/HBoxContainer" unique_id=1333681219]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_5pajh")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Text" type="Label" parent="CenterBox/MenuPanel/VBoxContainer/QuitButton/HBoxContainer" unique_id=740463715]
+layout_mode = 2
 text = "QUIT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HowToPlayPanel" type="Panel" parent="." unique_id=1339789050]
+[node name="HowToPlayPanel" type="Panel" parent="." unique_id=1906848281]
 visible = false
-custom_minimum_size = Vector2(520, 320)
+custom_minimum_size = Vector2(520, 360)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -175,33 +273,172 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel_bg")
 
-[node name="TextLabel" type="Label" parent="HowToPlayPanel" unique_id=1971479510]
+[node name="TitleLabel" type="Label" parent="HowToPlayPanel" unique_id=1102660838]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 63.0
+offset_right = 100.0
+offset_bottom = 103.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+
+[node name="TextLabel" type="Label" parent="HowToPlayPanel" unique_id=1037368197]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -153.0
-offset_top = -63.5
-offset_right = 153.0
-offset_bottom = 63.5
+offset_left = -200.0
+offset_top = -60.0
+offset_right = 200.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 14
 text = "Place Hachiware towers on build spots.
 Towers throw fish at enemies.
 Defeat enemies to earn coins.
 Upgrade towers to survive more waves.
 Don't let enemies reach the base!"
+horizontal_alignment = 1
 
-[node name="CloseButton" type="Button" parent="HowToPlayPanel" unique_id=2051020980]
+[node name="CloseButton" type="Button" parent="HowToPlayPanel" unique_id=1855396976]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -8.0
+offset_left = -80.0
+offset_top = -86.0
+offset_right = 80.0
+offset_bottom = -41.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_close_btn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_close_btn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_close_btn_hover")
+text = "CLOSE"
+
+[node name="SettingsPanel" type="Panel" parent="." unique_id=136189875]
+visible = false
+custom_minimum_size = Vector2(450, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel_bg")
+
+[node name="TitleLabel" type="Label" parent="SettingsPanel" unique_id=429558791]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 20.0
+offset_right = 80.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="SoundRow" type="HBoxContainer" parent="SettingsPanel" unique_id=1997940697]
+layout_mode = 1
+offset_left = 40.0
+offset_top = 80.0
+offset_right = 410.0
+offset_bottom = 120.0
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="SettingsPanel/SoundRow" unique_id=1478301290]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+text = "Sound"
+
+[node name="SoundSlider" type="HSlider" parent="SettingsPanel/SoundRow" unique_id=1787124202]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="SoundIcon" type="TextureRect" parent="SettingsPanel/SoundRow" unique_id=1147709302]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("12_icon_volume")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MusicRow" type="HBoxContainer" parent="SettingsPanel" unique_id=1480514847]
+layout_mode = 1
+offset_left = 40.0
+offset_top = 140.0
+offset_right = 410.0
+offset_bottom = 180.0
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="SettingsPanel/MusicRow" unique_id=493907585]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/MusicRow" unique_id=1213341005]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="MusicIcon" type="TextureRect" parent="SettingsPanel/MusicRow" unique_id=1165310423]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("13_icon_play")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel" unique_id=1339995922]
+layout_mode = 1
+offset_left = 40.0
+offset_top = 200.0
+offset_right = 200.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+text = "Fullscreen"
+
+[node name="CloseButton" type="Button" parent="SettingsPanel" unique_id=1462575970]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -60.0
+offset_right = 80.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_close_btn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_close_btn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_close_btn_hover")
 text = "CLOSE"
