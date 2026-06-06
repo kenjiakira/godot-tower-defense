@@ -6,6 +6,7 @@ extends Node2D
 @export var boss_enemy_scene: PackedScene
 
 @export var floating_text_scene: PackedScene
+@export var hud_scene: PackedScene
 
 @onready var town_hall = $TownHall
 @onready var audio_manager = $Managers/AudioManager
@@ -15,7 +16,7 @@ extends Node2D
 @onready var effects_manager = $Managers/EffectsManager
 @onready var bgm_player = $SFX/BGMSound
 
-var warning_tween: Tween
+var hud: CanvasLayer
 var sound_enabled := true
 var enemies_to_spawn := 10
 
@@ -31,32 +32,41 @@ func _ready():
 	Engine.time_scale = 1.0
 	get_tree().paused = false
 	GameState.reset()
+
+	spawn_hud()
 	setup_managers()
 
 	if not bgm_player.playing:
 		bgm_player.play()
 
-	ui_manager.setup()
-	update_ui()
 	setup_hp_bar_style()
-	setup_tower_buttons()
+	update_ui()
 	update_wave_button_state()
 
-	$UI/StartWaveButton.pressed.connect(_on_start_wave_button_pressed)
-	$UI/TowerPanel/UpgradeButton.pressed.connect(_on_upgrade_button_pressed)
-	$UI/TopBar/RightButtons/SoundButton.pressed.connect(_on_sound_button_pressed)
-	$UI/TopBar/RightButtons/SpeedButton.pressed.connect(_on_speed_button_pressed)
-	$UI/TopBar/RightButtons/PauseButton.pressed.connect(_on_pause_button_pressed)
-	$UI/GameOverPanel/PlayAgainButton.pressed.connect(_on_play_again_pressed)
-	$UI/TowerPanel/SellButton.pressed.connect(_on_sell_button_pressed)
 
-	$UI/TowerSelectPanel.visible = false
+func spawn_hud():
+	if hud_scene != null:
+		hud = hud_scene.instantiate()
+	else:
+		hud = preload("res://scenes/ui/hud.tscn").instantiate()
 
-	if town_hall:
-		town_hall.setup(GameState.base_hp)
-		town_hall.destroyed.connect(game_over)
+	add_child(hud)
+	connect_hud_signals()
 
-	print("Main scene ready")
+
+func connect_hud_signals():
+	if hud == null:
+		push_error("HUD not found")
+		return
+
+	hud.start_wave_pressed.connect(_on_start_wave_button_pressed)
+	hud.sound_button_pressed.connect(_on_sound_button_pressed)
+	hud.pause_button_pressed.connect(_on_pause_button_pressed)
+	hud.speed_button_pressed.connect(_on_speed_button_pressed)
+	hud.tower_upgrade_pressed.connect(_on_upgrade_button_pressed)
+	hud.tower_sell_pressed.connect(_on_sell_button_pressed)
+	hud.play_again_pressed.connect(_on_play_again_pressed)
+	setup_tower_buttons()
 
 
 func setup_managers():
@@ -73,35 +83,33 @@ func setup_managers():
 	effects_manager.floating_text_scene = floating_text_scene
 	effects_manager.effects_root = self
 
+	if town_hall:
+		town_hall.setup(GameState.base_hp)
+		town_hall.destroyed.connect(game_over)
+
+	print("Main scene ready")
+
 
 func setup_tower_buttons():
-	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn.pressed.connect(func(): on_tower_selected(GameConfig.TOWER_BASIC))
-	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn.pressed.connect(func(): on_tower_selected(GameConfig.TOWER_AOE))
-	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn.pressed.connect(func(): on_tower_selected(GameConfig.TOWER_SNIPER))
-	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn.pressed.connect(func(): on_tower_selected(GameConfig.TOWER_SLOW))
+	var panel = hud.tower_select_panel
+	if panel == null or not panel.has_node("TowerGrid"):
+		return
+
+	var grid = panel.get_node("TowerGrid")
+	if grid.has_node("BasicTowerBtn"):
+		grid.get_node("BasicTowerBtn").pressed.connect(func(): on_tower_selected(GameConfig.TOWER_BASIC))
+	if grid.has_node("AOETowerBtn"):
+		grid.get_node("AOETowerBtn").pressed.connect(func(): on_tower_selected(GameConfig.TOWER_AOE))
+	if grid.has_node("SniperTowerBtn"):
+		grid.get_node("SniperTowerBtn").pressed.connect(func(): on_tower_selected(GameConfig.TOWER_SNIPER))
+	if grid.has_node("SlowTowerBtn"):
+		grid.get_node("SlowTowerBtn").pressed.connect(func(): on_tower_selected(GameConfig.TOWER_SLOW))
 
 	update_tower_button_costs()
 
 
-func update_tower_button_costs():
-	var basic_cost = GameConfig.get_tower_cost(GameConfig.TOWER_BASIC)
-	var aoe_cost = GameConfig.get_tower_cost(GameConfig.TOWER_AOE)
-	var sniper_cost = GameConfig.get_tower_cost(GameConfig.TOWER_SNIPER)
-	var slow_cost = GameConfig.get_tower_cost(GameConfig.TOWER_SLOW)
-
-	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn/CostLabel.text = str(basic_cost) + "$"
-	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn/CostLabel.text = str(aoe_cost) + "$"
-	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn/CostLabel.text = str(sniper_cost) + "$"
-	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn/CostLabel.text = str(slow_cost) + "$"
-
-	$UI/TowerSelectPanel/TowerGrid/BasicTowerBtn.disabled = GameState.money < basic_cost
-	$UI/TowerSelectPanel/TowerGrid/AOETowerBtn.disabled = GameState.money < aoe_cost
-	$UI/TowerSelectPanel/TowerGrid/SniperTowerBtn.disabled = GameState.money < sniper_cost
-	$UI/TowerSelectPanel/TowerGrid/SlowTowerBtn.disabled = GameState.money < slow_cost
-
-
 func _on_start_wave_button_pressed():
-	if GameState.wave_in_progress or ui_manager.is_game_over_visible():
+	if GameState.wave_in_progress or hud.is_game_over_visible():
 		return
 
 	wave_manager.start_wave(GameState.wave, enemies_to_spawn)
@@ -109,18 +117,14 @@ func _on_start_wave_button_pressed():
 
 func _on_wave_started(current_wave: int):
 	GameState.wave_in_progress = true
-	show_warning("Wave " + str(current_wave) + " started")
+	hud.show_warning("Wave " + str(current_wave) + " started")
 	update_wave_button_state()
 
 
 func update_wave_button_state():
-	var start_wave_button = $UI/StartWaveButton
-	start_wave_button.disabled = GameState.wave_in_progress or ui_manager.is_game_over_visible()
-
-	if GameState.wave_in_progress:
-		start_wave_button.text = "Wave In Progress"
-	else:
-		start_wave_button.text = "Start Wave " + str(GameState.wave)
+	var disabled = GameState.wave_in_progress or hud.is_game_over_visible()
+	var text = "Wave In Progress" if GameState.wave_in_progress else "Start Wave " + str(GameState.wave)
+	hud.update_wave_button_state(disabled, text)
 
 
 func on_tower_selected(tower_type: int):
@@ -130,7 +134,7 @@ func on_tower_selected(tower_type: int):
 	var cost = GameConfig.get_tower_cost(tower_type)
 
 	if GameState.money < cost:
-		show_warning("Cannot afford this tower")
+		hud.show_warning("Cannot afford this tower")
 		cancel_build_spot()
 		return
 
@@ -142,6 +146,7 @@ func on_tower_selected(tower_type: int):
 
 	GameState.money -= cost
 	update_ui()
+	update_tower_button_costs()
 
 	print("Built " + GameConfig.get_tower_name(tower_type) + " tower, remaining money:", GameState.money)
 
@@ -151,16 +156,13 @@ func on_tower_selected(tower_type: int):
 
 func cancel_build_spot():
 	GameState.pending_build_spot = null
-	$UI/TowerSelectPanel.visible = false
+	hud.tower_select_panel.visible = false
 
 
 func _on_sound_button_pressed():
 	sound_enabled = !sound_enabled
 	audio_manager.set_sound_enabled(sound_enabled)
-
-	var icon = $UI/TopBar/RightButtons/SoundButton/Icon
-	icon.texture = SOUND_ICON_ON if sound_enabled else SOUND_ICON_OFF
-	icon.modulate = Color.WHITE
+	hud.update_sound_icon(sound_enabled)
 
 
 func _on_speed_button_pressed():
@@ -173,19 +175,13 @@ func _on_speed_button_pressed():
 		GameState.game_speed = 1.0
 
 	Engine.time_scale = GameState.game_speed
-
-	var icon = $UI/TopBar/RightButtons/SpeedButton/Icon
-	icon.texture = SPEED_ICON_2X if GameState.game_speed == 2.0 else SPEED_ICON_1X
-	icon.modulate = Color.WHITE
+	hud.update_speed_icon(GameState.game_speed)
 
 
 func _on_pause_button_pressed():
 	GameState.is_paused = !GameState.is_paused
 	get_tree().paused = GameState.is_paused
-
-	var icon = $UI/TopBar/RightButtons/PauseButton/Icon
-	icon.texture = PAUSE_ICON_OFF if GameState.is_paused else PAUSE_ICON_ON
-	icon.modulate = Color.WHITE
+	hud.update_pause_icon(GameState.is_paused)
 
 
 func setup_hp_bar_style():
@@ -213,7 +209,7 @@ func setup_hp_bar_style():
 
 func _on_enemy_died(reward, pos):
 	GameState.money += reward
-	effects_manager.show_coin_text(pos, reward, $UI/TopBar/LeftStats/MoneyPanel/HBoxContainer/MoneyLabel.global_position)
+	effects_manager.show_coin_text(pos, reward, hud.money_label.global_position)
 	audio_manager.play_sfx("EnemyDieSound")
 
 	update_ui()
@@ -239,7 +235,7 @@ func _on_wave_cleared():
 	enemies_to_spawn += 5
 	update_ui()
 	update_wave_button_state()
-	show_warning("Wave " + str(GameState.wave) + " ready")
+	hud.show_warning("Wave " + str(GameState.wave) + " ready")
 	print("Wave", GameState.wave)
 
 
@@ -253,7 +249,7 @@ func game_over():
 	if bgm_player.playing:
 		bgm_player.stop()
 
-	ui_manager.show_game_over(GameState.wave)
+	hud.show_game_over(GameState.wave)
 	audio_manager.play_sfx("GameOverSound")
 
 
@@ -264,7 +260,7 @@ func _on_play_again_pressed():
 
 
 func _input(event):
-	if ui_manager.is_game_over_visible():
+	if hud.is_game_over_visible():
 		return
 
 	if event is InputEventMouseButton and event.pressed:
@@ -273,7 +269,7 @@ func _input(event):
 
 		var mouse_pos = get_global_mouse_position()
 
-		if ui_manager.is_click_on_ui(event.position):
+		if hud.is_click_on_ui(event.position):
 			return
 
 		var clicked_tower = build_manager.get_tower_at(mouse_pos)
@@ -292,32 +288,11 @@ func _input(event):
 
 		if clicked_spot != null and not clicked_spot.occupied:
 			GameState.pending_build_spot = clicked_spot
-			$UI/TowerSelectPanel.visible = true
+			hud.tower_select_panel.visible = true
 			update_tower_button_costs()
 			return
 
 		deselect_tower()
-
-
-func show_warning(text: String):
-	var label = $UI/WarningLabel
-
-	label.text = text
-	label.visible = true
-	label.modulate.a = 1.0
-	label.scale = Vector2(1.0, 1.0)
-
-	if warning_tween:
-		warning_tween.kill()
-
-	warning_tween = create_tween()
-	warning_tween.tween_property(label, "scale", Vector2(1.1, 1.1), 0.08)
-	warning_tween.tween_property(label, "scale", Vector2(1.0, 1.0), 0.08)
-	warning_tween.tween_interval(1.0)
-	warning_tween.tween_property(label, "modulate:a", 0.0, 0.35)
-	warning_tween.tween_callback(func():
-		label.visible = false
-	)
 
 
 func _on_sell_button_pressed():
@@ -335,8 +310,8 @@ func _on_sell_button_pressed():
 	GameState.selected_tower.queue_free()
 	GameState.selected_tower = null
 
-	ui_manager.hide_tower_panel()
-	show_warning("Sold tower +" + str(sell_value))
+	hud.hide_tower_panel()
+	hud.show_warning("Sold tower +" + str(sell_value))
 
 
 func select_tower(tower):
@@ -345,7 +320,7 @@ func select_tower(tower):
 
 	GameState.selected_tower = tower
 	GameState.selected_tower.set_selected(true)
-	ui_manager.show_tower_panel(GameState.selected_tower)
+	hud.show_tower_panel(GameState.selected_tower)
 	print("Selected tower")
 
 
@@ -354,16 +329,16 @@ func deselect_tower():
 		GameState.selected_tower.set_selected(false)
 
 	GameState.selected_tower = null
-	ui_manager.hide_tower_panel()
+	hud.hide_tower_panel()
 
 
 func update_ui():
-	ui_manager.update_top_bar(GameState.money, GameState.base_hp, GameState.wave)
+	hud.update_top_bar(GameState.money, GameState.base_hp, GameState.wave)
 
 
 func update_tower_panel():
 	if GameState.selected_tower != null and is_instance_valid(GameState.selected_tower):
-		ui_manager.show_tower_panel(GameState.selected_tower)
+		hud.show_tower_panel(GameState.selected_tower)
 	update_ui()
 
 
@@ -372,14 +347,14 @@ func _on_upgrade_button_pressed():
 		return
 
 	if not GameState.selected_tower.can_upgrade():
-		show_warning("Tower is already max level")
+		hud.show_warning("Tower is already max level")
 		update_tower_panel()
 		return
 
 	var cost = GameState.selected_tower.get_upgrade_cost()
 
 	if GameState.money < cost:
-		show_warning("Not enough money to upgrade")
+		hud.show_warning("Not enough money to upgrade")
 		return
 
 	GameState.money -= cost
@@ -387,10 +362,37 @@ func _on_upgrade_button_pressed():
 	update_ui()
 	update_tower_button_costs()
 	audio_manager.play_sfx("UpgradeSound")
-	update_ui()
 	update_tower_panel()
 
 
 func base_hit_feedback():
 	audio_manager.play_sfx("BaseHitSound")
-	ui_manager.animate_hp_panel_hit()
+
+
+func update_tower_button_costs():
+	var basic_cost = GameConfig.get_tower_cost(GameConfig.TOWER_BASIC)
+	var aoe_cost = GameConfig.get_tower_cost(GameConfig.TOWER_AOE)
+	var sniper_cost = GameConfig.get_tower_cost(GameConfig.TOWER_SNIPER)
+	var slow_cost = GameConfig.get_tower_cost(GameConfig.TOWER_SLOW)
+
+	var panel = hud.tower_select_panel
+	if panel == null or not panel.has_node("TowerGrid"):
+		return
+
+	var grid = panel.get_node("TowerGrid")
+
+	var btns = [
+		["BasicTowerBtn", basic_cost],
+		["AOETowerBtn", aoe_cost],
+		["SniperTowerBtn", sniper_cost],
+		["SlowTowerBtn", slow_cost]
+	]
+
+	for entry in btns:
+		var btn_name: String = entry[0]
+		var cost: int = entry[1]
+		if grid.has_node(btn_name):
+			var btn = grid.get_node(btn_name)
+			if btn.has_node("CostLabel"):
+				btn.get_node("CostLabel").text = str(cost) + "$"
+			btn.disabled = GameState.money < cost

@@ -1,0 +1,673 @@
+[gd_scene format=3 uid="uid://b1r6m8raxj2k"]
+
+[ext_resource type="Script" uid="uid://crr8sh4oqru1t" path="res://scripts/ui/HUD.gd" id="1_hud_script"]
+[ext_resource type="Theme" uid="uid://tgh8hs7stqnh" path="res://themes/ui_theme.tres" id="1_kmb1v"]
+[ext_resource type="Texture2D" uid="uid://dyqx63ctt7ylm" path="res://assets/ui/button/right_stats_bg.png" id="2_bu4jf"]
+[ext_resource type="Texture2D" uid="uid://12u5kf8d715" path="res://assets/ui/right_topbar_icon/pause.png" id="3_rt_pause"]
+[ext_resource type="Texture2D" uid="uid://v5p0j21swmm2" path="res://assets/ui/bg_wood.png" id="3_we3sy"]
+[ext_resource type="Texture2D" uid="uid://bq1yj8smyj27w" path="res://assets/ui/kenney/coin.png" id="4_gmc6u"]
+[ext_resource type="Texture2D" uid="uid://ds0ch6ex1ruw0" path="res://assets/ui/right_topbar_icon/speed_1x.png" id="4_rt_speed_1x"]
+[ext_resource type="Texture2D" uid="uid://cnh6nleysolbg" path="res://assets/ui/kenney/heart.png" id="5_1e6lo"]
+[ext_resource type="Texture2D" uid="uid://bwj6wtcie7cvb" path="res://assets/ui/right_topbar_icon/volume.png" id="5_rt_volume"]
+[ext_resource type="Texture2D" uid="uid://dao24lanes6w5" path="res://assets/ui/wave_icon.png" id="6_4mi7y"]
+[ext_resource type="Texture2D" uid="uid://c7var8wkmc2ow" path="res://assets/ui/button/wave_button.png" id="6_wave_btn"]
+[ext_resource type="Texture2D" uid="uid://2ew5tv6txmja" path="res://assets/ui/button/wave_button_disable.png" id="6_wave_btn_disable"]
+[ext_resource type="Texture2D" uid="uid://crcib5mq22xaj" path="res://assets/ui/button/wave_button_hover.png" id="6_wave_btn_hover"]
+[ext_resource type="Texture2D" uid="uid://b83pt17llk5ha" path="res://assets/ui/bg_town_update.png" id="8_bg_town"]
+[ext_resource type="Theme" uid="uid://bvca2qly1f0ii" path="res://themes/lilitaone_font.tres" id="9_lilita"]
+[ext_resource type="FontFile" uid="uid://catsr7ya8oo8v" path="res://assets/fonts/Fredoka_Condensed-Bold.ttf" id="10_fredoka"]
+[ext_resource type="Texture2D" uid="uid://cxy5b0tnuaq77" path="res://assets/ui/kenney/button_Yellow.png" id="11_yellow_btn"]
+[ext_resource type="Texture2D" uid="uid://qpytxe76aa74" path="res://assets/ui/kenney/panel.png" id="13_panel"]
+[ext_resource type="PackedScene" uid="uid://dx8q8mt4eibmw" path="res://scenes/ui/TowerSelectPanel.tscn" id="14_tower_select_panel"]
+[ext_resource type="Texture2D" uid="uid://bscvxtypl58kh" path="res://assets/ui/town_panel/lv_panel.png" id="16_1e6lo"]
+[ext_resource type="FontFile" uid="uid://c56485lrcgsov" path="res://assets/fonts/Fredoka_Condensed-Regular.ttf" id="17_4mi7y"]
+[ext_resource type="Texture2D" uid="uid://5xqnkga0k47t" path="res://assets/ui/town_panel/stats_header.png" id="18_pkwgd"]
+[ext_resource type="Texture2D" uid="uid://dqjm4uha3u2vw" path="res://assets/ui/town_panel/stats_box_panel.png" id="19_d5po8"]
+[ext_resource type="Texture2D" uid="uid://dmxnp8qoyva8y" path="res://assets/ui/town_panel/damage_icon.png" id="20_7yoph"]
+[ext_resource type="Texture2D" uid="uid://br4kspf1uruj2" path="res://assets/ui/town_panel/range_icon.png" id="21_qmm8d"]
+[ext_resource type="Texture2D" uid="uid://dcee3pos36ah8" path="res://assets/ui/town_panel/fire_rate.png" id="22_t0png"]
+[ext_resource type="Texture2D" uid="uid://b0df8se3dcy6n" path="res://assets/ui/town_panel/upgrade_button.png" id="24_b6swc"]
+[ext_resource type="Texture2D" uid="uid://c5gqvjsr1arsd" path="res://assets/ui/town_panel/sell_button.png" id="25_27rlx"]
+[ext_resource type="Texture2D" uid="uid://c80xxny6jgsjw" path="res://assets/ui/town_panel/upgrade_button_hover.png" id="25_vuvg6"]
+[ext_resource type="Texture2D" uid="uid://55usn75fvlr5" path="res://assets/ui/town_panel/sell_button_hover.png" id="26_27rlx"]
+[ext_resource type="Texture2D" uid="uid://dc1k7dxri34h8" path="res://assets/ui/town_panel/upgrade_button_disable.png" id="26_emer0"]
+[ext_resource type="Texture2D" uid="uid://8al0ojs06p84" path="res://assets/ui/town_panel/sell_button_disable.png" id="27_27rlx"]
+[ext_resource type="Texture2D" uid="uid://dkfo7dx0mf6sb" path="res://assets/ui/town_panel/towers/frame_tower.png" id="28_frame"]
+[ext_resource type="Texture2D" uid="uid://chbcqy38dtx1n" path="res://assets/ui/town_panel/towers/town_normal.png" id="29_town_normal"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o7ddy"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_bu4jf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nvyfr"]
+texture = ExtResource("6_wave_btn")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ty1g6"]
+texture = ExtResource("6_wave_btn_hover")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j2jfr"]
+texture = ExtResource("6_wave_btn_hover")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bu4jf"]
+texture = ExtResource("6_wave_btn_disable")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjg73"]
+texture = ExtResource("6_wave_btn_hover")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_muem4"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+texture = ExtResource("8_bg_town")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4mi7y"]
+texture = ExtResource("16_1e6lo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d5po8"]
+texture = ExtResource("18_pkwgd")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7yoph"]
+texture = ExtResource("19_d5po8")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dp3eg"]
+texture = ExtResource("24_b6swc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dgi5k"]
+texture = ExtResource("24_b6swc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8jky"]
+texture = ExtResource("25_vuvg6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vuvg6"]
+texture = ExtResource("26_emer0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5q0nq"]
+texture = ExtResource("25_27rlx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kmb1v"]
+texture = ExtResource("25_27rlx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fuf3a"]
+texture = ExtResource("26_27rlx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_orange_disabled"]
+texture = ExtResource("27_27rlx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ld40"]
+texture = ExtResource("13_panel")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_o6xl0"]
+font_size = 24
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gqmmt"]
+texture = ExtResource("11_yellow_btn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yc10j"]
+texture = ExtResource("11_yellow_btn")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jscy8"]
+texture = ExtResource("11_yellow_btn")
+
+[node name="HUD" type="CanvasLayer" unique_id=373055291]
+process_mode = 3
+script = ExtResource("1_hud_script")
+
+[node name="TopBar" type="Control" parent="." unique_id=2089242425]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 90.0
+grow_horizontal = 2
+mouse_filter = 2
+theme = ExtResource("1_kmb1v")
+
+[node name="LeftStats" type="HBoxContainer" parent="TopBar" unique_id=943249380]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 15.0
+offset_right = 761.0
+offset_bottom = 75.0
+theme_override_constants/separation = 12
+
+[node name="MoneyPanel" type="Control" parent="TopBar/LeftStats" unique_id=1064944871]
+custom_minimum_size = Vector2(140, 54)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BGPanel" type="TextureRect" parent="TopBar/LeftStats/MoneyPanel" unique_id=591435438]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_we3sy")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/LeftStats/MoneyPanel" unique_id=1355912579]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="TopBar/LeftStats/MoneyPanel/HBoxContainer" unique_id=1198428083]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_gmc6u")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MoneyLabel" type="Label" parent="TopBar/LeftStats/MoneyPanel/HBoxContainer" unique_id=1757952021]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPPanel" type="Control" parent="TopBar/LeftStats" unique_id=2124599152]
+custom_minimum_size = Vector2(140, 54)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BGPanel" type="TextureRect" parent="TopBar/LeftStats/HPPanel" unique_id=362465141]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_we3sy")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/LeftStats/HPPanel" unique_id=270894733]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HPIcon" type="TextureRect" parent="TopBar/LeftStats/HPPanel/HBoxContainer" unique_id=887313618]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_1e6lo")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="HPLabel" type="Label" parent="TopBar/LeftStats/HPPanel/HBoxContainer" unique_id=377996420]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "10 / 10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WavePanel" type="Control" parent="TopBar/LeftStats" unique_id=1618991844]
+custom_minimum_size = Vector2(140, 54)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BGPanel" type="TextureRect" parent="TopBar/LeftStats/WavePanel" unique_id=298470752]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_we3sy")
+expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/LeftStats/WavePanel" unique_id=1325024976]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="WaveIcon" type="TextureRect" parent="TopBar/LeftStats/WavePanel/HBoxContainer" unique_id=1720192128]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_4mi7y")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="WaveLabel" type="Label" parent="TopBar/LeftStats/WavePanel/HBoxContainer" unique_id=1089557381]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Wave: 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightButtons" type="HBoxContainer" parent="TopBar" unique_id=1270358248]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -242.0
+offset_top = 14.0
+offset_right = -28.0
+offset_bottom = 86.0
+grow_horizontal = 0
+mouse_filter = 0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="SoundButton" type="Button" parent="TopBar/RightButtons" unique_id=1528117352]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_o7ddy")
+
+[node name="Icon" type="TextureRect" parent="TopBar/RightButtons/SoundButton" unique_id=1888520855]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_rt_volume")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="PauseButton" type="Button" parent="TopBar/RightButtons" unique_id=1219962673]
+process_mode = 3
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_o7ddy")
+
+[node name="Icon" type="TextureRect" parent="TopBar/RightButtons/PauseButton" unique_id=196427743]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_rt_pause")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="SpeedButton" type="Button" parent="TopBar/RightButtons" unique_id=904814822]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_o7ddy")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_o7ddy")
+
+[node name="Icon" type="TextureRect" parent="TopBar/RightButtons/SpeedButton" unique_id=1564181280]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_rt_speed_1x")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="StartWaveButton" type="Button" parent="." unique_id=615898648]
+custom_minimum_size = Vector2(240, 90)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -70.0
+offset_right = 75.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_lilita")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_nvyfr")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ty1g6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_j2jfr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_bu4jf")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bjg73")
+text = "Start Wave"
+
+[node name="TowerPanel" type="Panel" parent="." unique_id=1742960242]
+visible = false
+offset_left = 991.0
+offset_top = 193.0
+offset_right = 1260.0
+offset_bottom = 651.0
+theme = ExtResource("9_lilita")
+theme_override_styles/panel = SubResource("StyleBoxTexture_muem4")
+
+[node name="TitleLabel" type="Label" parent="TowerPanel" unique_id=95574403]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 21.0
+offset_right = 235.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 24
+text = "TOWN INFO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TownIcon" type="TextureRect" parent="TowerPanel" unique_id=835289975]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 80.0
+offset_right = 108.0
+offset_bottom = 160.0
+texture = ExtResource("29_town_normal")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="IconFrame" type="TextureRect" parent="TowerPanel" unique_id=1699645728]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 68.0
+offset_right = 122.0
+offset_bottom = 172.0
+texture = ExtResource("28_frame")
+expand_mode = 1
+
+[node name="LevelLabel" type="Label" parent="TowerPanel" unique_id=1739996533]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 101.0
+offset_right = 192.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 0.7764706, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_4mi7y")
+text = "Lv.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="TowerPanel" unique_id=801994678]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 86.0
+offset_right = 245.0
+offset_bottom = 111.0
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+text = "Hachiware Town"
+
+[node name="DescLabel" type="Label" parent="TowerPanel" unique_id=234301375]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 141.0
+offset_right = 245.0
+offset_bottom = 171.0
+theme_override_colors/font_color = Color(0.3137255, 0.11372549, 0, 1)
+theme_override_fonts/font = ExtResource("17_4mi7y")
+theme_override_font_sizes/font_size = 12
+text = "Tower canh trai"
+
+[node name="HeaderLabel" type="Label" parent="TowerPanel" unique_id=2092514713]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 177.0
+offset_right = 235.0
+offset_bottom = 206.0
+theme_override_colors/font_color = Color(0.34766608, 0.12925673, 0, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxTexture_d5po8")
+text = "Stats"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsBox" type="VBoxContainer" parent="TowerPanel" unique_id=121577988]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 207.0
+offset_right = 235.0
+offset_bottom = 351.0
+theme_override_constants/separation = 4
+
+[node name="DamageRow" type="PanelContainer" parent="TowerPanel/StatsBox" unique_id=482963181]
+clip_contents = true
+custom_minimum_size = Vector2(210, 43)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7yoph")
+
+[node name="DamageLabel" type="HBoxContainer" parent="TowerPanel/StatsBox/DamageRow" unique_id=1817363251]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="TowerPanel/StatsBox/DamageRow/DamageLabel" unique_id=494780193]
+custom_minimum_size = Vector2(43, 43)
+layout_mode = 2
+texture = ExtResource("20_7yoph")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="TowerPanel/StatsBox/DamageRow/DamageLabel" unique_id=2056740271]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "Damage"
+
+[node name="ValueLabel" type="Label" parent="TowerPanel/StatsBox/DamageRow/DamageLabel" unique_id=2021383780]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "25"
+
+[node name="RangeRow" type="PanelContainer" parent="TowerPanel/StatsBox" unique_id=639692390]
+clip_contents = true
+custom_minimum_size = Vector2(210, 43)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7yoph")
+
+[node name="RangeLabel" type="HBoxContainer" parent="TowerPanel/StatsBox/RangeRow" unique_id=478508249]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="TowerPanel/StatsBox/RangeRow/RangeLabel" unique_id=79245120]
+custom_minimum_size = Vector2(43, 43)
+layout_mode = 2
+texture = ExtResource("21_qmm8d")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="TowerPanel/StatsBox/RangeRow/RangeLabel" unique_id=2041049182]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "150"
+
+[node name="ValueLabel" type="Label" parent="TowerPanel/StatsBox/RangeRow/RangeLabel" unique_id=1710281838]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "25"
+
+[node name="FireRateRow" type="PanelContainer" parent="TowerPanel/StatsBox" unique_id=1409900302]
+clip_contents = true
+custom_minimum_size = Vector2(210, 43)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7yoph")
+
+[node name="FireRateLabel" type="HBoxContainer" parent="TowerPanel/StatsBox/FireRateRow" unique_id=49803977]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="TowerPanel/StatsBox/FireRateRow/FireRateLabel" unique_id=1148268581]
+custom_minimum_size = Vector2(43, 43)
+layout_mode = 2
+texture = ExtResource("22_t0png")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="TowerPanel/StatsBox/FireRateRow/FireRateLabel" unique_id=1818988194]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "Fire Rate"
+
+[node name="ValueLabel" type="Label" parent="TowerPanel/StatsBox/FireRateRow/FireRateLabel" unique_id=826345092]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.34901962, 0.12941177, 0, 1)
+text = "0.6s"
+
+[node name="UpgradeButton" type="Button" parent="TowerPanel" unique_id=424278596]
+layout_mode = 1
+offset_left = 59.0
+offset_top = 353.0
+offset_right = 209.0
+offset_bottom = 388.0
+theme_override_fonts/font = ExtResource("10_fredoka")
+theme_override_styles/normal = SubResource("StyleBoxTexture_dp3eg")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dgi5k")
+theme_override_styles/hover = SubResource("StyleBoxTexture_j8jky")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_vuvg6")
+text = "UPGRADE 80"
+
+[node name="SellButton" type="Button" parent="TowerPanel" unique_id=1078332834]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 401.0
+offset_right = 198.0
+offset_bottom = 436.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5q0nq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kmb1v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fuf3a")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_orange_disabled")
+text = "SELL 40"
+
+[node name="TowerSelectPanel" parent="." unique_id=1760663529 instance=ExtResource("14_tower_select_panel")]
+visible = false
+
+[node name="GameOverPanel" type="Panel" parent="." unique_id=592900892]
+visible = false
+offset_left = 450.0
+offset_top = 250.0
+offset_right = 810.0
+offset_bottom = 456.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_0ld40")
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel" unique_id=161848653]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 24.0
+offset_right = 251.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_o6xl0")
+
+[node name="ResultLabel" type="Label" parent="GameOverPanel" unique_id=241547476]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 72.0
+offset_right = 241.0
+offset_bottom = 109.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 12
+text = "You survived Wave 1
+"
+
+[node name="PlayAgainButton" type="Button" parent="GameOverPanel" unique_id=167913254]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 140.0
+offset_right = 225.0
+offset_bottom = 182.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxTexture_gqmmt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_yc10j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jscy8")
+text = "Play Again"
+
+[node name="WarningLabel" type="Label" parent="." unique_id=1006840820]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+vertical_alignment = 1
